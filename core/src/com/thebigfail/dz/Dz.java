@@ -11,6 +11,11 @@ public class Dz extends ApplicationAdapter {
 	Texture img;
 	OrthographicCamera camera;
     int cameraX;
+
+    // Creating a base pet texture.
+    Texture petBase;
+    // The object of the pet class.
+    Pet pet;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -19,6 +24,14 @@ public class Dz extends ApplicationAdapter {
         camera = new OrthographicCamera(720,1280);
         camera.position.set(1080, 640, 0);
         //camera.update();
+
+
+        // Creating a pet object with a name "Critzu".
+        pet = new Pet("Critzu");
+        petBase = new Texture("bot.png");
+
+        // Move pet to the location (1440, 0)
+        pet.moveTo(1440, 0);
     }
 
 	@Override
@@ -27,7 +40,12 @@ public class Dz extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
 		batch.begin();
+        // draw the background.
 		batch.draw(img, 0, 0,2160,1280);
+
+        // drawing the base pet on the screen over the background.
+        batch.draw(petBase, pet.getX(), pet.getY(), petBase.getWidth(), petBase.getHeight());
+
 		batch.end();
         if(Gdx.input.isTouched()){
             cameraX+=(Gdx.input.getX()-360);

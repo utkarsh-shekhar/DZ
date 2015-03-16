@@ -7,6 +7,8 @@ public class Pet {
     private String name, species;
     private int hp, attack, defence, level;
     private int maxHp, maxAttack, maxDefence;
+
+    // Here X, Y represent the coordinates of the bottom left corner of the pet image
     private int X, Y, centerX, centerY;
     private float hunger, fatigue, thirst;
     private float hungerRate, fatigueRate, thirstRate;
@@ -32,9 +34,42 @@ public class Pet {
         level = 1;
 
 
-        // (x, y) Location of the pet on the screen
-        X = 100;
-        Y = 100;
+        // (centerX, centerY) Location of the pet on the screen
+        centerX = 100;
+        centerY = 100;
+
+        setXY();
+    }
+
+    public int getX() {
+        return X;
+    }
+
+    public int getY() {
+        return Y;
+    }
+
+    public void setXY() {
+        X = centerX + 75;
+        Y = centerY + 75;
+    }
+
+    public int getCenterX() {
+        return  centerX;
+    }
+
+    public int getCenterY() {
+        return centerY;
+    }
+
+    public void setCenterX(int x) {
+        centerX = x;
+        setXY();
+    }
+
+    public void setCenterY(int y) {
+        centerY = y;
+        setXY();
     }
 
     // Set if the update method(updating the hunger, thirst and fatigue) should work or not.
@@ -55,12 +90,14 @@ public class Pet {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                double m = Math.abs(y - centerY) / Math.abs(x - centerX);
-                while(x != centerX) {
-                    centerX++;
-                    centerY = (int) (m * (double) (x - centerX) + y);
+                double m = Math.abs(y - getCenterY()) / Math.abs(x - getCenterX());
+                while(x != getCenterX()) {
+                    setCenterX(getCenterX() + 4);
+
+                    setCenterY( (int) (m * (double) (x - getCenterX()) + y));
+
                     try{
-                        Thread.sleep(35);
+                        Thread.sleep(17);
                     } catch (InterruptedException ie) {
                         ie.printStackTrace();
                     }
