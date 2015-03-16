@@ -12,8 +12,13 @@
         jar="D:\DZ\core\build\libs\core-1.0.jar"
         jumboMode="false"
         revision="21.1.2"
+<<<<<<< HEAD
         sha1="4ae738cd0da73acd3c4bc2381462b4bf6fdae2f6">
         <dex dex="D:\DZ\android\build\intermediates\pre-dexed\debug\core-1.0-6a362fda32df304dea503de8a75dadc1c32a12cd.jar" />
+=======
+        sha1="d7d5cc3b38603a01e3f6a481a96dda498a64713e">
+        <dex dex="D:\code\learn\AndroidStudioProjects\DZ\android\build\intermediates\pre-dexed\debug\core-1.0-f02ded4596310601a81a6369c1f98652ffd60954.jar" />
+>>>>>>> 91b55dfe9f5eabb8aabd77b3edba797a49fff37f
     </item>
     <item
         jar="C:\Users\Utkarsh\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.5.2\dfef8e7b1118cc6ea70393e4f4f7ede95de8f4bd\gdx-box2d-1.5.2.jar"

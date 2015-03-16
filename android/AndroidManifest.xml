@@ -13,8 +13,17 @@
         android:theme="@style/GdxTheme" >
         <activity
             android:name="com.thebigfail.dz.android.AndroidLauncher"
+<<<<<<< HEAD
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+=======
+            android:label="@string/app_name" 
+
+
+
+            android:screenOrientation="portrait"
+
+>>>>>>> 91b55dfe9f5eabb8aabd77b3edba797a49fff37f
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
