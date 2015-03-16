@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
+<merger version="3"><dataSet config="main"><source path="D:\DZ\android\assets"><file name="badlogic.jpg" path="D:\DZ\android\assets\badlogic.jpg"/></source></dataSet><dataSet config="debug"><source path="D:\DZ\android\src\debug\assets"/></dataSet></merger>
+=======
 <merger version="3"><dataSet config="main"><source path="D:\code\learn\AndroidStudioProjects\DZ\android\assets"><file name="badlogic.jpg" path="D:\code\learn\AndroidStudioProjects\DZ\android\assets\badlogic.jpg"/><file name="bg.jpg" path="D:\code\learn\AndroidStudioProjects\DZ\android\assets\bg.jpg"/></source></dataSet><dataSet config="debug"><source path="D:\code\learn\AndroidStudioProjects\DZ\android\src\debug\assets"/></dataSet></merger>
+>>>>>>> fe66d250f097d6b15e2b13976bd4264edda1c054

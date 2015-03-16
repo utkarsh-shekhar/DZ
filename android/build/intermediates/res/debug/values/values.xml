@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<<<<<<< HEAD
+    <!-- From: file:/D:/DZ/android/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="app_name">DZ</string>
+    <!-- From: file:/D:/DZ/android/res/values/styles.xml -->
+=======
     <!-- From: file:/D:/code/learn/AndroidStudioProjects/DZ/android/res/values/strings.xml -->
     <eat-comment/>
     <string name="app_name">DZ</string>
     <!-- From: file:/D:/code/learn/AndroidStudioProjects/DZ/android/res/values/styles.xml -->
+>>>>>>> fe66d250f097d6b15e2b13976bd4264edda1c054
     <eat-comment/>
     <style name="GdxTheme" parent="android:Theme">
 		<item name="android:windowBackground">@android:color/transparent</item>

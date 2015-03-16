@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
+<merger version="3"><dataSet config="main"><source path="D:\DZ\android\res"><file name="ic_launcher" path="D:\DZ\android\res\drawable-hdpi\ic_launcher.png" qualifiers="hdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\DZ\android\res\drawable-mdpi\ic_launcher.png" qualifiers="mdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\DZ\android\res\drawable-xhdpi\ic_launcher.png" qualifiers="xhdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\DZ\android\res\drawable-xxhdpi\ic_launcher.png" qualifiers="xxhdpi-v4" type="drawable"/><file path="D:\DZ\android\res\values\strings.xml" qualifiers=""><string name="app_name">DZ</string></file><file path="D:\DZ\android\res\values\styles.xml" qualifiers=""><style name="GdxTheme" parent="android:Theme">
+=======
 <merger version="3"><dataSet config="main"><source path="D:\code\learn\AndroidStudioProjects\DZ\android\res"><file name="ic_launcher" path="D:\code\learn\AndroidStudioProjects\DZ\android\res\drawable-hdpi\ic_launcher.png" qualifiers="hdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\code\learn\AndroidStudioProjects\DZ\android\res\drawable-mdpi\ic_launcher.png" qualifiers="mdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\code\learn\AndroidStudioProjects\DZ\android\res\drawable-xhdpi\ic_launcher.png" qualifiers="xhdpi-v4" type="drawable"/><file name="ic_launcher" path="D:\code\learn\AndroidStudioProjects\DZ\android\res\drawable-xxhdpi\ic_launcher.png" qualifiers="xxhdpi-v4" type="drawable"/><file path="D:\code\learn\AndroidStudioProjects\DZ\android\res\values\strings.xml" qualifiers=""><string name="app_name">DZ</string></file><file path="D:\code\learn\AndroidStudioProjects\DZ\android\res\values\styles.xml" qualifiers=""><style name="GdxTheme" parent="android:Theme">
+>>>>>>> fe66d250f097d6b15e2b13976bd4264edda1c054
 		<item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFullscreen">true</item>
+<<<<<<< HEAD
+    </style></file></source><source path="D:\DZ\android\build\generated\res\rs\debug"/><source path="D:\DZ\android\build\generated\res\generated\debug"/></dataSet><dataSet config="debug"><source path="D:\DZ\android\src\debug\res"/></dataSet><mergedItems/></merger>
+=======
     </style></file></source><source path="D:\code\learn\AndroidStudioProjects\DZ\android\build\generated\res\rs\debug"/><source path="D:\code\learn\AndroidStudioProjects\DZ\android\build\generated\res\generated\debug"/></dataSet><dataSet config="debug"><source path="D:\code\learn\AndroidStudioProjects\DZ\android\src\debug\res"/></dataSet><mergedItems/></merger>
+>>>>>>> fe66d250f097d6b15e2b13976bd4264edda1c054
