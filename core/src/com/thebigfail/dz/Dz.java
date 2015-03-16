@@ -13,7 +13,11 @@ public class Dz extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+<<<<<<< HEAD
 		img = new Texture("badlogic.jpg");
+=======
+		img = new Texture("bg.jpg");
+>>>>>>> fe66d250f097d6b15e2b13976bd4264edda1c054
 	}
 
 	@Override
