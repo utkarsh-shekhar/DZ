@@ -7,7 +7,7 @@ public class Pet {
     private String name, species;
     private int hp, attack, defence, level;
     private int maxHp, maxAttack, maxDefence;
-    private int x, y, centerX, centerY;
+    private int X, Y, centerX, centerY;
     private float hunger, fatigue, thirst;
     private float hungerRate, fatigueRate, thirstRate;
     private float baseHungerRate, baseFatigueRate, baseThirstRate;
@@ -33,8 +33,8 @@ public class Pet {
 
 
         // (x, y) Location of the pet on the screen
-        x = 100;
-        y = 100;
+        X = 100;
+        Y = 100;
     }
 
     // Set if the update method(updating the hunger, thirst and fatigue) should work or not.
@@ -49,8 +49,25 @@ public class Pet {
     }
 
     // moves the pet to the given (x, y) location in a straight line
-    public void moveTo(int x, int y) {
-
+    // All this happens in a new thread.
+    // An animation can also be created here, will implement when we get a few images.
+    public void moveTo(final int x, final int y) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double m = Math.abs(y - centerY) / Math.abs(x - centerX);
+                while(x != centerX) {
+                    centerX++;
+                    centerY = (int) (m * (double) (x - centerX) + y);
+                    try{
+                        Thread.sleep(35);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 
     // Updates the Hunger, Fatigue and Thirst of the pet.
