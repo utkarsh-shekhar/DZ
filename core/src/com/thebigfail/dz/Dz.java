@@ -14,11 +14,15 @@ public class Dz extends ApplicationAdapter {
     BitmapFont font;
 	OrthographicCamera camera;
     int cameraX;
-
+    Controls controls;
+    int camScrollRate=10;
     // Creating a base pet texture.
     Texture petBase;
     // The object of the pet class.
     Pet pet;
+
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -26,7 +30,7 @@ public class Dz extends ApplicationAdapter {
 		img = new Texture("bg.jpg");
         camera = new OrthographicCamera(720,1280);
         camera.position.set(1080, 640, 0);
-
+        controls = new Controls(this);
         font = new BitmapFont();
         //camera.update();
 
@@ -37,6 +41,7 @@ public class Dz extends ApplicationAdapter {
 
         // Move pet to the location (1440, 0)
         pet.moveTo(100, 900);
+
     }
 
 	@Override
@@ -46,6 +51,7 @@ public class Dz extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
 		batch.begin();
         // draw the background.
+
 		batch.draw(img, 0, 0,2160,1280);
 
         // drawing the base pet on the screen over the background.
@@ -53,7 +59,7 @@ public class Dz extends ApplicationAdapter {
         font.setColor(new Color(1, 1, 1, 1));
         font.setScale(3f, 3f);
         font.draw(batch, "Hunger: " + pet.getHunger(), camera.position.x ,camera.position.y);
-
+        controls.render();
 		batch.end();
         /*if(Gdx.input.isTouched()){
             cameraX+=(Gdx.input.getX()-360);
@@ -65,11 +71,15 @@ public class Dz extends ApplicationAdapter {
         }*/
 
         if(Gdx.input.isTouched()) {
-
-            camera.translate(0 - (Gdx.input.getDeltaX() * 2), 0, 0);
-            // camera.position.x;
+            if(Gdx.input.getX() < 64 && Gdx.input.getY() > Gdx.graphics.getHeight()-64)
+                camera.position.x-=camScrollRate;// camera.position.x;
+            if(Gdx.input.getX() > Gdx.graphics.getWidth()-64 && Gdx.input.getY() > Gdx.graphics.getHeight()-64)
+                camera.position.x+=camScrollRate;// camera.position.x;
         }
-
+        if(camera.position.x < 360)
+            camera.position.x=360;
+        if(camera.position.x > 1800)
+            camera.position.x=1800;
         camera.update();
 	}
 }
