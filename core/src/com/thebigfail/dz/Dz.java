@@ -2,13 +2,16 @@ package com.thebigfail.dz;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+    BitmapFont font;
 	OrthographicCamera camera;
     int cameraX;
 
@@ -23,6 +26,8 @@ public class Dz extends ApplicationAdapter {
 		img = new Texture("bg.jpg");
         camera = new OrthographicCamera(720,1280);
         camera.position.set(1080, 640, 0);
+
+        font = new BitmapFont();
         //camera.update();
 
 
@@ -31,7 +36,7 @@ public class Dz extends ApplicationAdapter {
         petBase = new Texture("bot.png");
 
         // Move pet to the location (1440, 0)
-        pet.moveTo(1440, 0);
+        pet.moveTo(100, 900);
     }
 
 	@Override
@@ -45,16 +50,26 @@ public class Dz extends ApplicationAdapter {
 
         // drawing the base pet on the screen over the background.
         batch.draw(petBase, pet.getX(), pet.getY(), petBase.getWidth(), petBase.getHeight());
+        font.setColor(new Color(1, 1, 1, 1));
+        font.setScale(3f, 3f);
+        font.draw(batch, "Hunger: " + pet.getHunger(), camera.position.x ,camera.position.y);
 
 		batch.end();
-        if(Gdx.input.isTouched()){
+        /*if(Gdx.input.isTouched()){
             cameraX+=(Gdx.input.getX()-360);
             if(cameraX<360)
                 cameraX=360;
             if(cameraX>1800)
                 cameraX=1800;
             camera.position.set(cameraX,640,0);
+        }*/
+
+        if(Gdx.input.isTouched()) {
+
+            camera.translate(0 - (Gdx.input.getDeltaX() * 2), 0, 0);
+            // camera.position.x;
         }
+
         camera.update();
 	}
 }

@@ -1,5 +1,9 @@
 package com.thebigfail.dz;
 
+import com.badlogic.gdx.Gdx;
+
+import java.util.Random;
+
 /**
  * Created by Utkarsh on 3/15/2015.
  */
@@ -13,7 +17,8 @@ public class Pet {
     private float hunger, fatigue, thirst;
     private float hungerRate, fatigueRate, thirstRate;
     private float baseHungerRate, baseFatigueRate, baseThirstRate;
-    private static boolean isUpdate = true;
+    private static boolean isUpdate = false;
+    private static boolean isMoving = false;
 
     // Not really sure if this should be a singleton class or not.
     // I'll come back to it later.
@@ -33,12 +38,31 @@ public class Pet {
         maxDefence = defence = 10;      // Percentage
         level = 1;
 
+        hungerRate = 0.1f;
+        fatigueRate = 0.1f;
+        thirstRate = 0.1f;
+
+
 
         // (centerX, centerY) Location of the pet on the screen
         centerX = 100;
         centerY = 100;
 
         setXY();
+
+        update();
+    }
+
+    public float getHunger() {
+        return hunger;
+    }
+
+    public float getFatigue() {
+        return fatigue;
+    }
+
+    public float getThirst() {
+        return thirst;
     }
 
     public int getX() {
@@ -55,7 +79,7 @@ public class Pet {
     }
 
     public int getCenterX() {
-        return  centerX;
+        return centerX;
     }
 
     public int getCenterY() {
@@ -72,6 +96,14 @@ public class Pet {
         setXY();
     }
 
+    public void setIsMoving(boolean flag) {
+        isMoving = flag;
+    }
+
+    public boolean isMoving() {
+        return isMoving;
+    }
+
     // Set if the update method(updating the hunger, thirst and fatigue) should work or not.
     // Pass in true to enable it, else pass in false;
     public static void setUpdate(boolean update) {
@@ -83,24 +115,56 @@ public class Pet {
         return isUpdate;
     }
 
+    // TODO: Check if passed (x, y) is a valid location.
+    public boolean validLocation(int x, int y) {
+        return true;
+    }
+
     // moves the pet to the given (x, y) location in a straight line
     // All this happens in a new thread.
     // An animation can also be created here, will implement when we get a few images.
     public void moveTo(final int x, final int y) {
+        if (isMoving()) {
+            return;
+        }
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                double m = Math.abs(y - getCenterY()) / Math.abs(x - getCenterX());
-                while(x != getCenterX()) {
-                    setCenterX(getCenterX() + 4);
+                synchronized (this) {
+                    setIsMoving(true);
+                    if(x == getCenterX())
+                        setCenterX(getCenterX() - 1);
 
-                    setCenterY( (int) (m * (double) (x - getCenterX()) + y));
+                    double m = Math.abs(y - getCenterY()) / Math.abs(x - getCenterX());
 
-                    try{
-                        Thread.sleep(17);
-                    } catch (InterruptedException ie) {
-                        ie.printStackTrace();
+                    if(Math.abs(x - getCenterX()) >= Math.abs(y - getCenterY())) {
+
+                        while (x > getCenterX()) {
+                            setCenterX(getCenterX() + 4);
+
+                            setCenterY((int) (m * (double) (x - getCenterX()) + y));
+
+                            try {
+                                Thread.sleep(17);
+                            } catch (InterruptedException ie) {
+                                ie.printStackTrace();
+                            }
+                        }
+                    } else {
+                        while (y > getCenterY()) {
+                            setCenterY(getCenterY() + 4);
+
+                            setCenterX((int) ( (1 / m) * (double) (y - getCenterY()) + x));
+
+                            try {
+                                Thread.sleep(17);
+                            } catch (InterruptedException ie) {
+                                ie.printStackTrace();
+                            }
+                        }
                     }
+                    setIsMoving(false);
                 }
             }
         });
@@ -110,28 +174,62 @@ public class Pet {
     // Updates the Hunger, Fatigue and Thirst of the pet.
     // Doesn't work fully.
     public void update() {
-        if(Pet.isUpdating()) {
+        if (Pet.isUpdating()) {
             return;
         }
 
+        Pet.setUpdate(true);
         Thread thread = new Thread(new Runnable() {
             boolean running = true;
+
             @Override
             public void run() {
-                while(Pet.isUpdating()) {
-                    hunger += hungerRate;
-                    fatigue += fatigueRate;
-                    thirst += thirstRate;
+                int count = 0;
+                Random random = new Random();
 
+                while (Pet.isUpdating()) {
+                    count++;
+                    int probability = random.nextInt(3);
+                    if(probability == 1 && !isMoving()) {
+                        randomMovements();
+                    }
+
+                    if(count == 2) {
+                        hunger += hungerRate;
+                        fatigue += fatigueRate;
+                        thirst += thirstRate;
+
+                        count = 0;
+                    }
                     try {
-                        // Sleep for 15 minutes.
-                        Thread.sleep(15 * 60 * 1000);
+                        // Sleep for 1 minute.
+                        Thread.sleep(2  * 1000);
                     } catch (InterruptedException ie) {
                         ie.printStackTrace();
                     }
                 }
+
+                Pet.setUpdate(false);
             }
         });
         thread.start();
+    }
+
+    public void randomMovements() {
+        if (isMoving()) {
+            return;
+        }
+
+        Random random = new Random();
+        int x, y;
+        double dist = 0;
+        do {
+            x = random.nextInt(Gdx.graphics.getWidth() * 3 - 150) + 75;
+            y = random.nextInt(Gdx.graphics.getHeight() - 150) + 75;
+
+            dist = Math.sqrt(Math.pow(Math.abs(x - getCenterX()), 2) + Math.pow(Math.abs(y - getCenterY()), 2));
+        } while (dist < 25);
+
+        moveTo(x, y);
     }
 }
