@@ -7,7 +7,9 @@ public class Pet {
     private String name, species;
     private int hp, attack, defence, level;
     private int maxHp, maxAttack, maxDefence;
-    private int x, y, centerX, centerY;
+
+    // Here X, Y represent the coordinates of the bottom left corner of the pet image
+    private int X, Y, centerX, centerY;
     private float hunger, fatigue, thirst;
     private float hungerRate, fatigueRate, thirstRate;
     private float baseHungerRate, baseFatigueRate, baseThirstRate;
@@ -32,9 +34,42 @@ public class Pet {
         level = 1;
 
 
-        // (x, y) Location of the pet on the screen
-        x = 100;
-        y = 100;
+        // (centerX, centerY) Location of the pet on the screen
+        centerX = 100;
+        centerY = 100;
+
+        setXY();
+    }
+
+    public int getX() {
+        return X;
+    }
+
+    public int getY() {
+        return Y;
+    }
+
+    public void setXY() {
+        X = centerX + 75;
+        Y = centerY + 75;
+    }
+
+    public int getCenterX() {
+        return  centerX;
+    }
+
+    public int getCenterY() {
+        return centerY;
+    }
+
+    public void setCenterX(int x) {
+        centerX = x;
+        setXY();
+    }
+
+    public void setCenterY(int y) {
+        centerY = y;
+        setXY();
     }
 
     // Set if the update method(updating the hunger, thirst and fatigue) should work or not.
@@ -49,8 +84,27 @@ public class Pet {
     }
 
     // moves the pet to the given (x, y) location in a straight line
-    public void moveTo(int x, int y) {
+    // All this happens in a new thread.
+    // An animation can also be created here, will implement when we get a few images.
+    public void moveTo(final int x, final int y) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                double m = Math.abs(y - getCenterY()) / Math.abs(x - getCenterX());
+                while(x != getCenterX()) {
+                    setCenterX(getCenterX() + 4);
 
+                    setCenterY( (int) (m * (double) (x - getCenterX()) + y));
+
+                    try{
+                        Thread.sleep(17);
+                    } catch (InterruptedException ie) {
+                        ie.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 
     // Updates the Hunger, Fatigue and Thirst of the pet.

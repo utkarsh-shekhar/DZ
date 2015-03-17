@@ -1,5 +1,5 @@
-D:\code\learn\AndroidStudioProjects\DZ\android\build\intermediates\classes\debug
-D:\code\learn\AndroidStudioProjects\DZ\android\build\intermediates\pre-dexed\debug\core-1.0-f02ded4596310601a81a6369c1f98652ffd60954.jar
-D:\code\learn\AndroidStudioProjects\DZ\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.5.2-5be82b1579e0befae9e03c445bd7c3f7e63701e4.jar
-D:\code\learn\AndroidStudioProjects\DZ\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.5.2-c54be34991fa28be00d6d4e2d293fa3b26bce72d.jar
-D:\code\learn\AndroidStudioProjects\DZ\android\build\intermediates\pre-dexed\debug\gdx-1.5.2-e960258ffd54eb76362327ed2a6d04c1ca8fa484.jar
+D:\DZ\android\build\intermediates\classes\debug
+D:\DZ\android\build\intermediates\pre-dexed\debug\core-1.0-6a362fda32df304dea503de8a75dadc1c32a12cd.jar
+D:\DZ\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.5.2-90e48976e78ad321133e883d4d9ec2e966321a60.jar
+D:\DZ\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.5.2-7c559b917d1a64329482ed40b1b577006e9b3e19.jar
+D:\DZ\android\build\intermediates\pre-dexed\debug\gdx-1.5.2-a7d266a0f8262aa22302601e81844257bd2b87ee.jar
