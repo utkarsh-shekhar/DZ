@@ -5,7 +5,7 @@
         jar="D:\DZ\core\build\libs\core-1.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="c40753400766bf9785dd9b3c3df4ab3c8452bf6a">
+        sha1="d199a667d7af144e72f1402f61c75ff4a80f92b4">
         <dex dex="D:\DZ\android\build\intermediates\pre-dexed\debug\core-1.0-6a362fda32df304dea503de8a75dadc1c32a12cd.jar" />
     </item>
 
