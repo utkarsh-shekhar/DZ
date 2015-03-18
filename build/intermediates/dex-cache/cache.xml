@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\code\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.5.2\4e8961d210e6451fda0f3c4f5b6a0685d61533b9\gdx-1.5.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4e8961d210e6451fda0f3c4f5b6a0685d61533b9">
+        <dex dex="D:\Downloads\Compressed\DZ-d42d264cf1503dc458e561f9e5874f8fd07b3659\android\build\intermediates\pre-dexed\debug\gdx-1.5.2-e960258ffd54eb76362327ed2a6d04c1ca8fa484.jar" />
+    </item>
+    <item
+        jar="D:\Downloads\Compressed\DZ-d42d264cf1503dc458e561f9e5874f8fd07b3659\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="075629bdc11ee3f6015e2d0bcf76bd63703cb5f8">
+        <dex dex="D:\Downloads\Compressed\DZ-d42d264cf1503dc458e561f9e5874f8fd07b3659\android\build\intermediates\pre-dexed\debug\core-1.0-1b1b1f90d25e53508ca25098e8dd95856abaffcd.jar" />
+    </item>
+    <item
+        jar="D:\code\learn\AndroidStudioProjects\DZ\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4f3b7006d9d9acb0a9b30403bd7a840d34d7e57f">
+        <dex dex="D:\code\learn\AndroidStudioProjects\DZ\android\build\intermediates\pre-dexed\debug\core-1.0-f02ded4596310601a81a6369c1f98652ffd60954.jar" />
+    </item>
+    <item
+        jar="C:\Users\code\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.5.2\dfef8e7b1118cc6ea70393e4f4f7ede95de8f4bd\gdx-box2d-1.5.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="dfef8e7b1118cc6ea70393e4f4f7ede95de8f4bd">
+        <dex dex="D:\Downloads\Compressed\DZ-d42d264cf1503dc458e561f9e5874f8fd07b3659\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.5.2-5be82b1579e0befae9e03c445bd7c3f7e63701e4.jar" />
+    </item>
+    <item
+        jar="C:\Users\code\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.5.2\51f73ee35e73a6d76fd245f83ec3f6a3316744d5\gdx-backend-android-1.5.2.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="51f73ee35e73a6d76fd245f83ec3f6a3316744d5">
+        <dex dex="D:\Downloads\Compressed\DZ-d42d264cf1503dc458e561f9e5874f8fd07b3659\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.5.2-c54be34991fa28be00d6d4e2d293fa3b26bce72d.jar" />
+    </item>
+
+</items>

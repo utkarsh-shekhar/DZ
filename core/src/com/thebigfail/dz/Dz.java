@@ -1,0 +1,109 @@
+package com.thebigfail.dz;
+
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+public class Dz extends ApplicationAdapter {
+	SpriteBatch batch;
+	Texture img;
+    BitmapFont font;
+	OrthographicCamera camera;
+    int cameraX;
+    Controls controls;
+    int camScrollRate=10;
+    // Creating a base pet texture.
+    Texture petBase;
+    // The object of the pet class.
+    Pet pet;
+
+
+
+	@Override
+	public void create () {
+		batch = new SpriteBatch();
+
+		img = new Texture("bg.jpg");
+        camera = new OrthographicCamera(720,1280);
+        camera.position.set(1080, 640, 0);
+        controls = new Controls(this);
+        font = new BitmapFont();
+        //camera.update();
+
+
+        // Creating a pet object with a name "Critzu".
+        pet = new Pet("Critzu");
+        petBase = new Texture(pet.getBaseImage());
+
+        // Move pet to the location (1440, 0)
+        pet.moveTo(100, 900);
+
+    }
+
+	@Override
+	public void render () {
+		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+        // draw the background.
+
+		batch.draw(img, 0, 0,2160,1280);
+
+        // drawing the base pet on the screen over the background.
+        batch.draw(petBase, pet.getX(), pet.getY(), petBase.getWidth(), petBase.getHeight());
+        font.setColor(new Color(1, 1, 1, 1));
+        font.setScale(3f, 3f);
+        font.draw(batch, "Hunger: " + pet.getHunger(), camera.position.x ,camera.position.y);
+        controls.render();
+		batch.end();
+        /*if(Gdx.input.isTouched()){
+            cameraX+=(Gdx.input.getX()-360);
+            if(cameraX<360)
+                cameraX=360;
+            if(cameraX>1800)
+                cameraX=1800;
+            camera.position.set(cameraX,640,0);
+        }*/
+
+        if(Gdx.input.isTouched()) {
+
+            // checks if pet is touched.
+            // Does not work yet.
+            isPetTouched();
+
+            // camera.position.x;
+
+
+            if(Gdx.input.getX() < 64 && Gdx.input.getY() > Gdx.graphics.getHeight()-64)
+                camera.position.x-=camScrollRate;// camera.position.x;
+            if(Gdx.input.getX() > Gdx.graphics.getWidth()-64 && Gdx.input.getY() > Gdx.graphics.getHeight()-64)
+                camera.position.x+=camScrollRate;// camera.position.x;
+        }
+        if(camera.position.x < 360)
+            camera.position.x=360;
+        if(camera.position.x > 1800)
+            camera.position.x=1800;
+        camera.update();
+	}
+
+    public void isPetTouched() {
+        int centerX = Gdx.graphics.getWidth() / 2;
+        int dx = centerX - Gdx.input.getX();
+
+        System.out.println("X: " + ((int)camera.position.x + dx) + " \t Y: " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
+        System.out.println("CenterX = " + pet.getCenterX() + "\t CenterY = " + pet.getCenterY());
+
+        if(pet.isThere((int)camera.position.x + dx, Gdx.graphics.getHeight() - Gdx.input.getY())) {
+            pet.setTouched(true);
+            System.out.println("Pet is touched...");
+        } else {
+            pet.setTouched(false);
+            // System.out.println("Pet is not touched...");
+        }
+    }
+}
