@@ -65,6 +65,19 @@ public class Dz extends ApplicationAdapter {
         }*/
 
         if(Gdx.input.isTouched()) {
+            int centerX = Gdx.graphics.getWidth() / 2;
+            int dx = centerX - Gdx.input.getX();
+
+            System.out.println("X: " + ((int)camera.position.x + dx) + " \t Y: " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
+            System.out.println("CenterX = " + pet.getCenterX() + "\t CenterY = " + pet.getCenterY());
+
+            if(pet.isThere((int)camera.position.x + dx, Gdx.graphics.getHeight() - Gdx.input.getY())) {
+                pet.setTouched(true);
+                System.out.println("Pet is touched...");
+            } else {
+                pet.setTouched(false);
+                // System.out.println("Pet is not touched...");
+            }
 
             camera.translate(0 - (Gdx.input.getDeltaX() * 2), 0, 0);
             // camera.position.x;

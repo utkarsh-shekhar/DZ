@@ -19,6 +19,7 @@ public class Pet {
     private float baseHungerRate, baseFatigueRate, baseThirstRate;
     private static boolean isUpdate = false;
     private static boolean isMoving = false;
+    private static boolean touched = false;
 
     // Not really sure if this should be a singleton class or not.
     // I'll come back to it later.
@@ -76,6 +77,7 @@ public class Pet {
     public void setXY() {
         X = centerX + 75;
         Y = centerY + 75;
+
     }
 
     public int getCenterX() {
@@ -104,6 +106,21 @@ public class Pet {
         return isMoving;
     }
 
+    public boolean isTouched() {
+        return touched;
+    }
+
+    public void setTouched(boolean touched) {
+        this.touched = touched;
+    }
+
+    public boolean isThere(int x, int y) {
+        if(x <= getCenterX() + 75 && x >= getCenterX() - 75 && y <= getCenterY() + 75 && y >= getCenterY() - 75)
+            return true;
+
+        return false;
+    }
+
     // Set if the update method(updating the hunger, thirst and fatigue) should work or not.
     // Pass in true to enable it, else pass in false;
     public static void setUpdate(boolean update) {
@@ -124,7 +141,7 @@ public class Pet {
     // All this happens in a new thread.
     // An animation can also be created here, will implement when we get a few images.
     public void moveTo(final int x, final int y) {
-        if (isMoving()) {
+        if (isMoving() || isTouched()) {
             return;
         }
 
@@ -140,7 +157,7 @@ public class Pet {
 
                     if(Math.abs(x - getCenterX()) >= Math.abs(y - getCenterY())) {
 
-                        while (x > getCenterX()) {
+                        while (x > getCenterX() && !isTouched()) {
                             setCenterX(getCenterX() + 4);
 
                             setCenterY((int) (m * (double) (x - getCenterX()) + y));
@@ -152,7 +169,7 @@ public class Pet {
                             }
                         }
                     } else {
-                        while (y > getCenterY()) {
+                        while (y > getCenterY()  && !isTouched()) {
                             setCenterY(getCenterY() + 4);
 
                             setCenterX((int) ( (1 / m) * (double) (y - getCenterY()) + x));
@@ -190,7 +207,7 @@ public class Pet {
                 while (Pet.isUpdating()) {
                     count++;
                     int probability = random.nextInt(3);
-                    if(probability == 1 && !isMoving()) {
+                    if(probability == 1 && !isMoving() && !isTouched()) {
                         randomMovements();
                     }
 
