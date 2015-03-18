@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\DZ\core\build\libs\core-1.0.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="f861eb38420f66b9e3b6d6dd290659787a157f35">
+        <dex dex="D:\DZ\android\build\intermediates\pre-dexed\debug\core-1.0-6a362fda32df304dea503de8a75dadc1c32a12cd.jar" />
+    </item>
+
+</items>
