@@ -37,7 +37,7 @@ public class Dz extends ApplicationAdapter {
 
         // Creating a pet object with a name "Critzu".
         pet = new Pet("Critzu");
-        petBase = new Texture("bot.png");
+        petBase = new Texture(pet.getBaseImage());
 
         // Move pet to the location (1440, 0)
         pet.moveTo(100, 900);
@@ -71,21 +71,11 @@ public class Dz extends ApplicationAdapter {
         }*/
 
         if(Gdx.input.isTouched()) {
-            int centerX = Gdx.graphics.getWidth() / 2;
-            int dx = centerX - Gdx.input.getX();
 
-            System.out.println("X: " + ((int)camera.position.x + dx) + " \t Y: " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
-            System.out.println("CenterX = " + pet.getCenterX() + "\t CenterY = " + pet.getCenterY());
+            // checks if pet is touched.
+            // Does not work yet.
+            isPetTouched();
 
-            if(pet.isThere((int)camera.position.x + dx, Gdx.graphics.getHeight() - Gdx.input.getY())) {
-                pet.setTouched(true);
-                System.out.println("Pet is touched...");
-            } else {
-                pet.setTouched(false);
-                // System.out.println("Pet is not touched...");
-            }
-
-            camera.translate(0 - (Gdx.input.getDeltaX() * 2), 0, 0);
             // camera.position.x;
 
 
@@ -100,4 +90,20 @@ public class Dz extends ApplicationAdapter {
             camera.position.x=1800;
         camera.update();
 	}
+
+    public void isPetTouched() {
+        int centerX = Gdx.graphics.getWidth() / 2;
+        int dx = centerX - Gdx.input.getX();
+
+        System.out.println("X: " + ((int)camera.position.x + dx) + " \t Y: " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
+        System.out.println("CenterX = " + pet.getCenterX() + "\t CenterY = " + pet.getCenterY());
+
+        if(pet.isThere((int)camera.position.x + dx, Gdx.graphics.getHeight() - Gdx.input.getY())) {
+            pet.setTouched(true);
+            System.out.println("Pet is touched...");
+        } else {
+            pet.setTouched(false);
+            // System.out.println("Pet is not touched...");
+        }
+    }
 }

@@ -8,7 +8,19 @@ import java.util.Random;
  * Created by Utkarsh on 3/15/2015.
  */
 public class Pet {
-    private String name, species;
+    private String name, species;           // This will store the name and the species of the pet. Default species = "default".
+    private String baseImage;               // This will store the location of the base image of the pet.
+    private String[] moveFrames;            // This will store all the frame for the animation while the pet is moving.
+    private String[] soundClips;            // This will store the location of each sound clip associated with the pet.
+                                            // Standard notations will keep the sounds naming conventions the same for each pet.
+                                            // eg: soundClips[0] -> Default cry of the pet
+                                            //     soundClips[1] -> Sound a pet makes when it is happy,
+                                            //     soundClips[2] -> Sound a pet makes when it is sad,
+                                            //     soundClips[3] -> Sound a pet makes when it is tired,
+                                            //     soundClips[4] -> Sound a pet makes when it is hungry,
+                                            //     soundClips[5] -> Sound a pet makes when it is clicked on, etc.
+                                            // This is all TODO for now.
+
     private int hp, attack, defence, level;
     private int maxHp, maxAttack, maxDefence;
 
@@ -43,15 +55,28 @@ public class Pet {
         fatigueRate = 0.1f;
         thirstRate = 0.1f;
 
-
-
         // (centerX, centerY) Location of the pet on the screen
         centerX = 100;
         centerY = 100;
 
+        // Assign the base image and the animation images according to the species.
+        if(species == "default") {
+            baseImage = "bot.png";
+        }
+
         setXY();
 
         update();
+    }
+
+    // This method returns the location of the base image of the pet.
+    public String getBaseImage() {
+        return baseImage;
+    }
+
+    // This method returns the location of the sound to play for a specific event.
+    public String getSoundClip(int index) {
+        return soundClips[index];
     }
 
     public float getHunger() {
@@ -66,10 +91,12 @@ public class Pet {
         return thirst;
     }
 
+    // This method returns the x-axis value of the lower left corner of the pet image.
     public int getX() {
         return X;
     }
 
+    // This method returns the y-axis value of the lower left corner of the pet image.
     public int getY() {
         return Y;
     }
@@ -114,6 +141,7 @@ public class Pet {
         this.touched = touched;
     }
 
+    // Returns true if the pet lies where you have touched the screen
     public boolean isThere(int x, int y) {
         if(x <= getCenterX() + 75 && x >= getCenterX() - 75 && y <= getCenterY() + 75 && y >= getCenterY() - 75)
             return true;
