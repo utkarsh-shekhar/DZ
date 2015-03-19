@@ -20,7 +20,7 @@ public class Dz extends ApplicationAdapter {
     Texture petBase;
     // The object of the pet class.
     Pet pet;
-
+    float yScale;   // in some devices actual Gdx.graphics.height is equal to 1184 even if the device screen height is 1280 because 96px maybe used for navigation bar. use this scale to compare y co-ordinates with 1280 screen. example : isThere() in Pet
 
 
 	@Override
@@ -36,12 +36,12 @@ public class Dz extends ApplicationAdapter {
 
 
         // Creating a pet object with a name "Critzu".
-        pet = new Pet("Critzu");
+        pet = new Pet("Critzu",this);
         petBase = new Texture(pet.getBaseImage());
 
         // Move pet to the location (1440, 0)
         pet.moveTo(100, 900);
-
+        yScale=(float)1280/(float)Gdx.graphics.getHeight(); //scale actual height to 1280 standard
     }
 
 	@Override
@@ -74,7 +74,7 @@ public class Dz extends ApplicationAdapter {
 
             // checks if pet is touched.
             // Does not work yet.
-            isPetTouched();
+            pet.isPetTouched();
 
             // camera.position.x;
 
@@ -91,19 +91,5 @@ public class Dz extends ApplicationAdapter {
         camera.update();
 	}
 
-    public void isPetTouched() {
-        int centerX = Gdx.graphics.getWidth() / 2;
-        int dx = centerX - Gdx.input.getX();
 
-        System.out.println("X: " + ((int)camera.position.x + dx) + " \t Y: " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
-        System.out.println("CenterX = " + pet.getCenterX() + "\t CenterY = " + pet.getCenterY());
-
-        if(pet.isThere((int)camera.position.x + dx, Gdx.graphics.getHeight() - Gdx.input.getY())) {
-            pet.setTouched(true);
-            System.out.println("Pet is touched...");
-        } else {
-            pet.setTouched(false);
-            // System.out.println("Pet is not touched...");
-        }
-    }
 }

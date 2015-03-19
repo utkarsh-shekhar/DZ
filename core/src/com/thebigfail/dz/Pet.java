@@ -8,6 +8,7 @@ import java.util.Random;
  * Created by Utkarsh on 3/15/2015.
  */
 public class Pet {
+    Dz dz;
     private String name, species;           // This will store the name and the species of the pet. Default species = "default".
     private String baseImage;               // This will store the location of the base image of the pet.
     private String[] moveFrames;            // This will store all the frame for the animation while the pet is moving.
@@ -33,14 +34,17 @@ public class Pet {
     private static boolean isMoving = false;
     private static boolean touched = false;
 
+
     // Not really sure if this should be a singleton class or not.
     // I'll come back to it later.
-    Pet(String name) {
-        this(name, "default");
+    Pet(String name,Dz dz) {     //passing dz object too
+        this(name, "default",dz);
+
     }
 
-    Pet(String name, String species) {
+    Pet(String name, String species, Dz dz) {
         this.name = name;
+        this.dz= dz;
         this.species = species;
 
         // These things need to be randomly generated
@@ -102,8 +106,8 @@ public class Pet {
     }
 
     public void setXY() {
-        X = centerX + 75;
-        Y = centerY + 75;
+        X = centerX - 75;
+        Y = centerY - 75;
 
     }
 
@@ -143,7 +147,12 @@ public class Pet {
 
     // Returns true if the pet lies where you have touched the screen
     public boolean isThere(int x, int y) {
-        if(x <= getCenterX() + 75 && x >= getCenterX() - 75 && y <= getCenterY() + 75 && y >= getCenterY() - 75)
+        //System.out.println("getX: "+ getX() + "\t getY: " +getY());
+        //System.out.println("x: "+ x + "\t y: " +y);
+        //System.out.println("yScale: " + dz.yScale);
+        y=(int)(y*dz.yScale);
+        //System.out.println("x: "+ x + "\t y: " +y);
+        if(x >= getX()  && x <= getX() + dz.petBase.getWidth() && y >= getY()   && y <= getY() + dz.petBase.getHeight() )
             return true;
 
         return false;
@@ -198,7 +207,7 @@ public class Pet {
                         }
                     } else {
                         while (y > getCenterY()  && !isTouched()) {
-                            setCenterY(getCenterY() + 4);
+                            setCenterY(getCenterY()+4);
 
                             setCenterX((int) ( (1 / m) * (double) (y - getCenterY()) + x));
 
@@ -276,5 +285,22 @@ public class Pet {
         } while (dist < 25);
 
         moveTo(x, y);
+    }
+    public void isPetTouched() {
+
+        //dz.camera=new OrthographicCamera(720,1280);
+        int centerX = Gdx.graphics.getWidth() / 2;
+        int dx = Gdx.input.getX()-centerX;        //taking center of screen as x=0, dx is distance relative to center
+
+        //System.out.println("X: " + ((int)dz.camera.position.x + dx) + " \t Y: " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
+        //System.out.println("X = " + Gdx.input.getX() + "\t Y = " + Gdx.input.getY());
+
+        if(isThere((int) dz.camera.position.x + dx, Gdx.graphics.getHeight() -  Gdx.input.getY())) {
+            setTouched(true);
+            System.out.println("Pet is touched...");
+        } else {
+            setTouched(false);
+            System.out.println("Pet is not touched...");
+        }
     }
 }
