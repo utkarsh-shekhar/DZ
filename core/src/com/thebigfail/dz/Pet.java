@@ -1,6 +1,7 @@
 package com.thebigfail.dz;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 
 import java.util.Random;
 
@@ -20,6 +21,7 @@ public class Pet {
                                             //     soundClips[3] -> Sound a pet makes when it is tired,
                                             //     soundClips[4] -> Sound a pet makes when it is hungry,
                                             //     soundClips[5] -> Sound a pet makes when it is clicked on, etc.
+//                                                    check isPetTouched() in various screen sizes
                                             // This is all TODO for now.
 
     private int hp, attack, defence, level;
@@ -67,7 +69,7 @@ public class Pet {
         if(species == "default") {
             baseImage = "bot.png";
         }
-
+        dz.petBase = new Texture(getBaseImage());
         setXY();
 
         update();
@@ -106,8 +108,8 @@ public class Pet {
     }
 
     public void setXY() {
-        X = centerX - 75;
-        Y = centerY - 75;
+        X = centerX - dz.petBase.getWidth()/2;
+        Y = centerY - dz.petBase.getHeight()/2;
 
     }
 
@@ -278,8 +280,8 @@ public class Pet {
         int x, y;
         double dist = 0;
         do {
-            x = random.nextInt(Gdx.graphics.getWidth() * 3 - 150) + 75;
-            y = random.nextInt(Gdx.graphics.getHeight() - 150) + 75;
+            x = random.nextInt(dz.resolutionX * 3 - dz.petBase.getWidth()/2);
+            y = random.nextInt(dz.resolutionY - dz.petBase.getHeight()/2);
 
             dist = Math.sqrt(Math.pow(Math.abs(x - getCenterX()), 2) + Math.pow(Math.abs(y - getCenterY()), 2));
         } while (dist < 25);
@@ -297,10 +299,10 @@ public class Pet {
 
         if(isThere((int) dz.camera.position.x + dx, Gdx.graphics.getHeight() -  Gdx.input.getY())) {
             setTouched(true);
-            System.out.println("Pet is touched...");
+            //System.out.println("Pet is touched...");
         } else {
             setTouched(false);
-            System.out.println("Pet is not touched...");
+            //System.out.println("Pet is not touched...");
         }
     }
 }
