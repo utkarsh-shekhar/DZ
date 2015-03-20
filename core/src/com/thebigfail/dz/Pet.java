@@ -1,83 +1,14 @@
 package com.thebigfail.dz;
 
-<<<<<<< HEAD
-=======
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 
 import java.util.Random;
 
->>>>>>> 2d0c2d27b017f722cae80bb46a0b44a3c907e4c2
 /**
  * Created by Utkarsh on 3/15/2015.
  */
 public class Pet {
-<<<<<<< HEAD
-    private String name, species;
-    private int hp, attack, defence;
-    private float fatigue, hunger, thirst;
-    private float fatigueRate, hungerRate, thirstRate;
-    private float baseFatigueRate, baseHungerRate, baseThirstRate;
-
-    Pet(String name) {
-        this.Pet(name, "default");
-    }
-
-    Pet(String name, String species) {
-        this.name = name;
-        this.species = species;
-
-        // These all variables must be randomly generate within a
-        // fixed range.
-
-        hp = 70;        // Total HP
-        attack = 5;     // Raw attack
-        defence = 10;   // in percentage
-
-        fatigue = 0;
-        hunger = 0;
-        thirst = 0;
-
-        baseFatigueRate = fatigueRate = 0.01f;
-        baseHungerRate = hungerRate = 0.01f;
-        baseThirstRate = thirstRate = 0.01f;
-    }
-
-    void walk(int x, int y) {
-
-    }
-
-    void updateState(boolean running) {
-        Runnable runnable = new Runnable () {
-            private boolean running = true;
-
-            @Override
-            public void run() {
-                while(running) {
-                    fatigue +=fatigueRate;
-                    hunger += hungerRate;
-                    thirst += thirstRate;
-
-                    try {
-                        Thread.sleep(15 * 60 * 1000);
-                    } catch(InterruptedException ie) {
-                        ie.printStackTrace();
-                    }
-                }
-            }
-
-            public void setRunning(boolean flag) {
-                running = flag;
-            }
-
-            public boolean getRunning() {
-                return running;
-            }
-        };
-
-        if(runnable.g)
-        Thread thread = new Thread(runnable);
-        thread.start();
-=======
     Dz dz;
     private String name, species;           // This will store the name and the species of the pet. Default species = "default".
     private String baseImage;               // This will store the location of the base image of the pet.
@@ -90,6 +21,7 @@ public class Pet {
                                             //     soundClips[3] -> Sound a pet makes when it is tired,
                                             //     soundClips[4] -> Sound a pet makes when it is hungry,
                                             //     soundClips[5] -> Sound a pet makes when it is clicked on, etc.
+//                                                    check isPetTouched() in various screen sizes
                                             // This is all TODO for now.
 
     private int hp, attack, defence, level;
@@ -137,7 +69,7 @@ public class Pet {
         if(species == "default") {
             baseImage = "bot.png";
         }
-
+        dz.petBase = new Texture(getBaseImage());
         setXY();
 
         update();
@@ -176,8 +108,8 @@ public class Pet {
     }
 
     public void setXY() {
-        X = centerX - 75;
-        Y = centerY - 75;
+        X = centerX - dz.petBase.getWidth()/2;
+        Y = centerY - dz.petBase.getHeight()/2;
 
     }
 
@@ -348,8 +280,8 @@ public class Pet {
         int x, y;
         double dist = 0;
         do {
-            x = random.nextInt(Gdx.graphics.getWidth() * 3 - 150) + 75;
-            y = random.nextInt(Gdx.graphics.getHeight() - 150) + 75;
+            x = random.nextInt(dz.resolutionX * 3 - dz.petBase.getWidth()/2);
+            y = random.nextInt(dz.resolutionY - dz.petBase.getHeight()/2);
 
             dist = Math.sqrt(Math.pow(Math.abs(x - getCenterX()), 2) + Math.pow(Math.abs(y - getCenterY()), 2));
         } while (dist < 25);
@@ -367,11 +299,10 @@ public class Pet {
 
         if(isThere((int) dz.camera.position.x + dx, Gdx.graphics.getHeight() -  Gdx.input.getY())) {
             setTouched(true);
-            System.out.println("Pet is touched...");
+            //System.out.println("Pet is touched...");
         } else {
             setTouched(false);
-            System.out.println("Pet is not touched...");
+            //System.out.println("Pet is not touched...");
         }
->>>>>>> 2d0c2d27b017f722cae80bb46a0b44a3c907e4c2
     }
 }
