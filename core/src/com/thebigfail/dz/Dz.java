@@ -2,7 +2,6 @@ package com.thebigfail.dz;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,7 +36,9 @@ public class Dz extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
         map = new Map(this);
+
 		//img = new Texture("bg.jpg");
+
         camera = new OrthographicCamera(resolutionX,resolutionY);
         camera.position.set((int)(resolutionX*1.5), resolutionY/2, 0);
         controls = new Controls(this);
@@ -60,7 +61,9 @@ public class Dz extends ApplicationAdapter {
 	@Override
 	public void render () {
         //delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
+
         map.update();
+
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
@@ -75,6 +78,7 @@ public class Dz extends ApplicationAdapter {
         // font.setScale(3f, 3f);
         // font.draw(batch, "Hunger: " + pet.getHunger(), camera.position.x ,camera.position.y);
         batch.end();
+        map.update();
         controls.render();
         pet.plotStats();
 

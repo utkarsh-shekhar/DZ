@@ -319,6 +319,7 @@ public class Pet {
 
         if(isThere((int) dz.camera.position.x + dx, dz.resolutionY -  (int)(Gdx.input.getY()*dz.yScale))) {
             setTouched(true);
+
             // System.out.println("Pet is touched...");
         } /*else {
             setTouched(false);
@@ -337,5 +338,6 @@ public class Pet {
             batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45, Gdx.graphics.getHeight() - 200, (fatigue / maxFatigue) * maxWidthToPlot , lineWidth);
 
         batch.end();
+
     }
 }

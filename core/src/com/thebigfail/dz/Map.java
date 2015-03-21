@@ -18,24 +18,38 @@ public class Map {
     int tiles[][];
     Texture HouseImage;
     Dz dz;
+
+    int drawX,drawY;
+
     public Map(Dz dz ){
         this.dz=dz;
         loadBinary();
     }
     public void update(){
 
+        dz.batch.begin();
+        dz.batch.draw(HouseImage,drawX*40,drawY*40);
+        dz.batch.end();
+
     }
     private void loadBinary () {
         HouseImage=new Texture(Gdx.files.internal("house.png"));
         Pixmap pixmap = new Pixmap(Gdx.files.internal("map.png"));
         tiles = new int[pixmap.getWidth()][pixmap.getHeight()];
+
+        //System.out.println("hello g");
         for (int y = 0; y < 32; y++) {
             for (int x = 0; x < 54; x++) {
                 int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
-                if (match(pix, GROUND)) {
-                    dz.batch.begin();
-                    dz.batch.draw(HouseImage,x*15,y*15);
-                    dz.batch.end();
+                System.out.println("x: "+x+" y: "+y);
+                System.out.println(pix+" "+HOUSE );
+                if (match(pix, HOUSE)) {
+
+
+                    drawX=x;
+                    drawY=y;
+
+
                 }/* else if (match(pix, DISPENSER)) {
                     Dispenser dispenser = new Dispenser(x, pixmap.getHeight() - 1 - y);
                     dispensers.add(dispenser);
