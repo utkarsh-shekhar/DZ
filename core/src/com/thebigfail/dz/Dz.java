@@ -37,7 +37,7 @@ public class Dz extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
         map = new Map(this);
-		img = new Texture("bg.jpg");
+		//img = new Texture("bg.jpg");
         camera = new OrthographicCamera(resolutionX,resolutionY);
         camera.position.set((int)(resolutionX*1.5), resolutionY/2, 0);
         controls = new Controls(this);
