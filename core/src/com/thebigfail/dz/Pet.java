@@ -2,6 +2,7 @@ package com.thebigfail.dz;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Random;
 
@@ -31,10 +32,15 @@ public class Pet {
     private int X, Y, centerX, centerY;
     private float hunger, fatigue, thirst;
     private float hungerRate, fatigueRate, thirstRate;
+    private float maxHunger, maxFatigue, maxThirst;
     private float baseHungerRate, baseFatigueRate, baseThirstRate;
     private static boolean isUpdate = false;
     private static boolean isMoving = false;
     private static boolean touched = false;
+
+    private SpriteBatch batch;
+    private Texture red, green, blue;
+    private int maxWidthToPlot, lineWidth = 15;
 
 
     // Not really sure if this should be a singleton class or not.
@@ -49,6 +55,8 @@ public class Pet {
         this.dz= dz;
         this.species = species;
 
+        batch = new SpriteBatch();
+
         // These things need to be randomly generated
         // in a given range(a, b).
         // The range (a, b) has not yet been decided.
@@ -57,9 +65,20 @@ public class Pet {
         maxDefence = defence = 10;      // Percentage
         level = 1;
 
-        hungerRate = 0.1f;
-        fatigueRate = 0.1f;
-        thirstRate = 0.1f;
+        maxHunger = maxFatigue = maxThirst = 26;
+        hunger = maxHunger;
+        thirst = maxThirst;
+        fatigue = 1;
+
+        hungerRate = 30 * 0.01736f;
+        fatigueRate = 10 * 0.01736f;
+        thirstRate =  20 * 0.01736f;
+
+        red = new Texture("red.png");
+        green = new Texture("green.png");
+        blue = new Texture("blue.png");
+
+        maxWidthToPlot = Gdx.graphics.getWidth() / 3;
 
         // (centerX, centerY) Location of the pet on the screen
         centerX = 100;
@@ -251,15 +270,15 @@ public class Pet {
                     }
 
                     if(count == 2) {
-                        hunger += hungerRate;
-                        fatigue += fatigueRate;
-                        thirst += thirstRate;
+                        hunger = (hunger - hungerRate <= 1)? 1 : hunger - hungerRate;
+                        fatigue = (fatigue + fatigueRate >= maxFatigue)? maxFatigue : fatigue + fatigueRate;
+                        thirst = (thirst - thirstRate <= 1)? 1 : thirst - thirstRate;
 
                         count = 0;
                     }
                     try {
                         // Sleep for 1 minute.
-                        Thread.sleep(2  * 1000);
+                        Thread.sleep( 1000);
                     } catch (InterruptedException ie) {
                         ie.printStackTrace();
                     }
@@ -288,6 +307,7 @@ public class Pet {
 
         moveTo(x, y);
     }
+
     public void isPetTouched() {
 
         //dz.camera=new OrthographicCamera(720,1280);
@@ -299,10 +319,23 @@ public class Pet {
 
         if(isThere((int) dz.camera.position.x + dx, dz.resolutionY -  (int)(Gdx.input.getY()*dz.yScale))) {
             setTouched(true);
-            System.out.println("Pet is touched...");
-        } else {
+            // System.out.println("Pet is touched...");
+        } /*else {
             setTouched(false);
             System.out.println("Pet is not touched...");
-        }
+        }*/
+    }
+
+    // Function to plot pet's stats.
+    public void plotStats() {
+        batch.begin();
+            // Draw Hunger / Energy
+            batch.draw((hunger > maxHunger / 4)? blue : red, 45, Gdx.graphics.getHeight() - 100, (hunger / maxHunger) * maxWidthToPlot , lineWidth);
+            // Draw Thirst
+            batch.draw((thirst > maxThirst / 4)? blue : red, 45, Gdx.graphics.getHeight() - 150, (thirst / maxThirst) * maxWidthToPlot , lineWidth);
+            // Draw Fatigue
+            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45, Gdx.graphics.getHeight() - 200, (fatigue / maxFatigue) * maxWidthToPlot , lineWidth);
+
+        batch.end();
     }
 }
