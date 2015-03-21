@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 //TO DO
 //separate class to render pet stats
 //separate class to render the map
+//configure input for all platforms ios, html, desktop, android
 
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -27,6 +28,7 @@ public class Dz extends ApplicationAdapter {
     Pet pet;
     Controls controls;
     float yScale;   // in some devices actual Gdx.graphics.height is equal to 1184 even if the device screen height is 1280 because 96px maybe used for navigation bar. use this scale to compare y co-ordinates with 1280 screen. example : isThere() in Pet
+    float xScale;   //same as yScale Whenever you use Gdx.input.getX() or getY() multiply the values retrieved by their respective scales
     String petName;
     final int resolutionX=720;
     final int resolutionY=1280;
@@ -52,6 +54,7 @@ public class Dz extends ApplicationAdapter {
         // Move pet to the location (1440, 0)
         //pet.moveTo(100, 900);
         yScale=(float)1280/(float)Gdx.graphics.getHeight(); //scale actual height to 1280 standard
+        xScale=(float)720/(float)Gdx.graphics.getWidth();
     }
 
 	@Override
@@ -80,10 +83,10 @@ public class Dz extends ApplicationAdapter {
 
             // camera.position.x;
 
-//System.out.println("touched at : "+Gdx.input.getX()+" "+Gdx.input.getY()*yScale);
-            if(Gdx.input.getX() < controls.left.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY-controls.left.getRegionHeight())
+//System.out.println("touched at : "+Gdx.input.getX()*xScale+" "+Gdx.input.getY()*yScale+"\t left width: "+controls.left.getRegionWidth());
+            if(Gdx.input.getX()*xScale < controls.left.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY-controls.left.getRegionHeight())
                 camera.position.x-=camScrollRate;// camera.position.x;
-            if(Gdx.input.getX() > resolutionX- controls.right.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY- controls.right.getRegionHeight())
+            if(Gdx.input.getX()*xScale > resolutionX- controls.right.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY- controls.right.getRegionHeight())
                 camera.position.x+=camScrollRate;// camera.position.x;
         }
         if(camera.position.x < resolutionX/2)
@@ -95,3 +98,4 @@ public class Dz extends ApplicationAdapter {
 
 
 }
+
