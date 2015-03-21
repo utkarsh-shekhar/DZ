@@ -69,11 +69,15 @@ public class Dz extends ApplicationAdapter {
 
         // drawing the base pet on the screen over the background.
         batch.draw(petBase, pet.getX(), pet.getY(), petBase.getWidth(), petBase.getHeight());
-        font.setColor(new Color(1, 1, 1, 1));
-        font.setScale(3f, 3f);
-        font.draw(batch, "Hunger: " + pet.getHunger(), camera.position.x ,camera.position.y);
+        // font.setColor(new Color(1, 1, 1, 1));
+        // font.setScale(3f, 3f);
+        // font.draw(batch, "Hunger: " + pet.getHunger(), camera.position.x ,camera.position.y);
         batch.end();
         controls.render();
+        pet.plotStats();
+
+        pet.setTouched(false);      // Have to set it to false at every iteration because if someone touches the pet once
+                                    // then the pet is set to touched = true and it won't be false even if later it is not being touched
 
         if(Gdx.input.isTouched()) {
 
