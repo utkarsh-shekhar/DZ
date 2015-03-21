@@ -152,7 +152,7 @@ public class Pet {
         //System.out.println("getX: "+ getX() + "\t getY: " +getY());
         //System.out.println("x: "+ x + "\t y: " +y);
         //System.out.println("yScale: " + dz.yScale);
-        y=(int)(y*dz.yScale);
+        //y=(int)(y*dz.yScale);
         //System.out.println("x: "+ x + "\t y: " +y);
         if(x >= getX()  && x <= getX() + dz.petBase.getWidth() && y >= getY()   && y <= getY() + dz.petBase.getHeight() )
             return true;
@@ -291,18 +291,18 @@ public class Pet {
     public void isPetTouched() {
 
         //dz.camera=new OrthographicCamera(720,1280);
-        int centerX = Gdx.graphics.getWidth() / 2;
-        int dx = Gdx.input.getX()-centerX;        //taking center of screen as x=0, dx is distance relative to center
+        int centerX = dz.resolutionX / 2;
+        int dx = (int)(Gdx.input.getX()*dz.xScale-centerX);        //taking center of screen as x=0, dx is distance relative to center
 
         //System.out.println("X: " + ((int)dz.camera.position.x + dx) + " \t Y: " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
         //System.out.println("X = " + Gdx.input.getX() + "\t Y = " + Gdx.input.getY());
 
-        if(isThere((int) dz.camera.position.x + dx, Gdx.graphics.getHeight() -  Gdx.input.getY())) {
+        if(isThere((int) dz.camera.position.x + dx, dz.resolutionY -  (int)(Gdx.input.getY()*dz.yScale))) {
             setTouched(true);
-            //System.out.println("Pet is touched...");
+            System.out.println("Pet is touched...");
         } else {
             setTouched(false);
-            //System.out.println("Pet is not touched...");
+            System.out.println("Pet is not touched...");
         }
     }
 }
