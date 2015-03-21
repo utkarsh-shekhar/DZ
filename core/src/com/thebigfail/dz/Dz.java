@@ -10,9 +10,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 //TO DO
-//separate class to render pet stats
+//separate function to render pet stats
 //separate class to render the map
-//configure input for all platforms ios, html, desktop, android
+
 
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -20,7 +20,7 @@ public class Dz extends ApplicationAdapter {
     BitmapFont font;
 	OrthographicCamera camera;
     int cameraX;
-
+    Map map;
     final int camScrollRate=10;
     // Creating a base pet texture.
     Texture petBase;
@@ -36,7 +36,7 @@ public class Dz extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-
+        map = new Map(this);
 		img = new Texture("bg.jpg");
         camera = new OrthographicCamera(resolutionX,resolutionY);
         camera.position.set((int)(resolutionX*1.5), resolutionY/2, 0);
@@ -59,13 +59,15 @@ public class Dz extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+        //delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
+        map.update();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
 		batch.begin();
         // draw the background.
 
-		batch.draw(img, 0, 0,resolutionX*3,resolutionY);
+		//batch.draw(img, 0, 0,resolutionX*3,resolutionY);
 
         // drawing the base pet on the screen over the background.
         batch.draw(petBase, pet.getX(), pet.getY(), petBase.getWidth(), petBase.getHeight());
