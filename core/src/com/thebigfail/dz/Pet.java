@@ -331,11 +331,11 @@ public class Pet {
     public void plotStats() {
         batch.begin();
             // Draw Hunger / Energy
-            batch.draw((hunger > maxHunger / 4)? blue : red, 45, Gdx.graphics.getHeight() - 100, (hunger / maxHunger) * maxWidthToPlot , lineWidth);
+            batch.draw((hunger > maxHunger / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 100/dz.yScale, (hunger / maxHunger) * maxWidthToPlot , lineWidth/dz.xScale);
             // Draw Thirst
-            batch.draw((thirst > maxThirst / 4)? blue : red, 45, Gdx.graphics.getHeight() - 150, (thirst / maxThirst) * maxWidthToPlot , lineWidth);
+            batch.draw((thirst > maxThirst / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 150/dz.yScale, (thirst / maxThirst) * maxWidthToPlot , lineWidth/dz.xScale);
             // Draw Fatigue
-            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45, Gdx.graphics.getHeight() - 200, (fatigue / maxFatigue) * maxWidthToPlot , lineWidth);
+            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 200/dz.yScale, (fatigue / maxFatigue) * maxWidthToPlot , lineWidth/dz.xScale);
 
         batch.end();
 
