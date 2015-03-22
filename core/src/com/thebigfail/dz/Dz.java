@@ -2,7 +2,6 @@ package com.thebigfail.dz;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,22 +9,23 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 //TO DO
-//separate class to render pet stats
+//separate function to render pet stats
 //separate class to render the map
-//configure input for all platforms ios, html, desktop, android
+
 
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
+	//Texture img;
     BitmapFont font;
 	OrthographicCamera camera;
     int cameraX;
-
+    Map map;
     final int camScrollRate=10;
     // Creating a base pet texture.
     Texture petBase;
     // The object of the pet class.
     Pet pet;
+    MapRenderer mapRenderer;
     Controls controls;
     float yScale;   // in some devices actual Gdx.graphics.height is equal to 1184 even if the device screen height is 1280 because 96px maybe used for navigation bar. use this scale to compare y co-ordinates with 1280 screen. example : isThere() in Pet
     float xScale;   //same as yScale Whenever you use Gdx.input.getX() or getY() multiply the values retrieved by their respective scales
@@ -36,8 +36,10 @@ public class Dz extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+        map = new Map(this);
+        mapRenderer= new MapRenderer(map,this);
+		//img = new Texture("bg.jpg");
 
-		img = new Texture("bg.jpg");
         camera = new OrthographicCamera(resolutionX,resolutionY);
         camera.position.set((int)(resolutionX*1.5), resolutionY/2, 0);
         controls = new Controls(this);
@@ -59,13 +61,19 @@ public class Dz extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+        //delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
+
+        map.update();
+
+		Gdx.gl.glClearColor(0, 1, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
+        mapRenderer.render();
 		batch.begin();
+
         // draw the background.
 
-		batch.draw(img, 0, 0,resolutionX*3,resolutionY);
+		//batch.draw(img, 0, 0,resolutionX*3,resolutionY);
 
         // drawing the base pet on the screen over the background.
         batch.draw(petBase, pet.getX(), pet.getY(), petBase.getWidth(), petBase.getHeight());
@@ -73,6 +81,7 @@ public class Dz extends ApplicationAdapter {
         // font.setScale(3f, 3f);
         // font.draw(batch, "Hunger: " + pet.getHunger(), camera.position.x ,camera.position.y);
         batch.end();
+        map.update();
         controls.render();
         pet.plotStats();
 
