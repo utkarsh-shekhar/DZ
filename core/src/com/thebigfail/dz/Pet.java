@@ -115,7 +115,7 @@ public class Pet {
             petMoods[0] = "bot.png";
             petMoods[1] = "tiredbot.png";
 
-            soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("clicked.wav"));
+            // soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("clicked.wav"));
         }
         dz.petBase = new Texture(getBaseImage());
         setXY();
