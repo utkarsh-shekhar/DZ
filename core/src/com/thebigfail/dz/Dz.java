@@ -93,15 +93,17 @@ public class Dz extends ApplicationAdapter {
             // checks if pet is touched.
             // Does not work yet.
             pet.isPetTouched();
-            pet.playSoundClip(0);
+
 
             // camera.position.x;
 
 //System.out.println("touched at : "+Gdx.input.getX()*xScale+" "+Gdx.input.getY()*yScale+"\t left width: "+controls.left.getRegionWidth());
             if(Gdx.input.getX()*xScale < controls.left.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY-controls.left.getRegionHeight())
                 camera.position.x-=camScrollRate;// camera.position.x;
-            if(Gdx.input.getX()*xScale > resolutionX- controls.right.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY- controls.right.getRegionHeight())
+            else if(Gdx.input.getX()*xScale > resolutionX- controls.right.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY- controls.right.getRegionHeight())
                 camera.position.x+=camScrollRate;// camera.position.x;
+            else
+                pet.playSoundClip(0);
         }
         if(camera.position.x < resolutionX/2)
             camera.position.x=resolutionX/2;
