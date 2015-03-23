@@ -38,7 +38,7 @@ public class Map {
     }
     private void loadBinary () {
         //HouseImage=new Texture(Gdx.files.internal("house.png"));
-        Pixmap pixmap = new Pixmap(Gdx.files.internal("map.png"));
+        Pixmap pixmap = new Pixmap(Gdx.files.internal("map1.png"));
         //tiles = new int[pixmap.getWidth()][pixmap.getHeight()];
 
         //System.out.println("hello g");
