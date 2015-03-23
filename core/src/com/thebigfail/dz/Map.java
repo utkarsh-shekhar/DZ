@@ -15,7 +15,7 @@ public class Map {
     static int GRASS = 0x00ff00;
     static int FENCE = 0x00ffff;
     static int WATER = 0x0000ff;
-    int tiles[][];
+    //int tiles[][];
     //Texture HouseImage;
     Dz dz;
     Array<Home> homes=new Array<Home>();
@@ -39,7 +39,7 @@ public class Map {
     private void loadBinary () {
         //HouseImage=new Texture(Gdx.files.internal("house.png"));
         Pixmap pixmap = new Pixmap(Gdx.files.internal("map.png"));
-        tiles = new int[pixmap.getWidth()][pixmap.getHeight()];
+        //tiles = new int[pixmap.getWidth()][pixmap.getHeight()];
 
         //System.out.println("hello g");
         for (int y = 0; y < 32; y++) {
@@ -50,22 +50,19 @@ public class Map {
                 if (match(pix, HOME)) {
                     Home home = new Home(x, pixmap.getHeight() - 1 - y);
                     homes.add(home);
-                }/* else if (match(pix, DISPENSER)) {
-                    Dispenser dispenser = new Dispenser(x, pixmap.getHeight() - 1 - y);
-                    dispensers.add(dispenser);
-                } else if (match(pix, ROCKET)) {
-                    Rocket rocket = new Rocket(this, x, pixmap.getHeight() - 1 - y);
-                    rockets.add(rocket);
-                } else if (match(pix, MOVING_SPIKES)) {
-                    movingSpikes.add(new MovingSpikes(this, x, pixmap.getHeight() - 1 - y));
-                } else if (match(pix, LASER)) {
-                    lasers.add(new Laser(this, x, pixmap.getHeight() - 1 - y));
-                } else if (match(pix, END)) {
-                    endDoor = new EndDoor(x, pixmap.getHeight() - 1 - y);
-                } else {
-                    tiles[x][y] = pix;
                 }
-                */
+                else if (match(pix, ROCK)) {
+                    Rock rock = new Rock(x, pixmap.getHeight() - 1 - y);
+                    rocks.add(rock);
+                } else if (match(pix, GRASS)) {
+                    Grass grass = new Grass(x, pixmap.getHeight() - 1 - y);
+                    grasses.add(grass);
+                } else if (match(pix, FENCE)) {
+                    fences.add(new Fence(x, pixmap.getHeight() - 1 - y));
+                } else if (match(pix, WATER)) {
+                    waters.add(new Water(x, pixmap.getHeight() - 1 - y));
+                }
+
             }
         }
         /*
