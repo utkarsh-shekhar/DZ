@@ -1,6 +1,9 @@
 package com.thebigfail.dz;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -13,8 +16,17 @@ public class Pet {
     Dz dz;
     private String name, species;           // This will store the name and the species of the pet. Default species = "default".
     private String baseImage;               // This will store the location of the base image of the pet.
+    private String[] petMoods;              // This will store all the moods of the pet
+                                            // eg: petMoods[0] -> Default cry of the pet
+                                            //     petMoods[1] -> Image when it is happy,
+                                            //     petMoods[2] -> Image when it is sad,
+                                            //     petMoods[3] -> Image when it is tired,
+                                            //     petMoods[4] -> Image when it is hungry,
+                                            //     petMoods[5] -> Image when it is clicked on, etc.
+                                            // This is all TODO for now.
+
     private String[] moveFrames;            // This will store all the frame for the animation while the pet is moving.
-    private String[] soundClips;            // This will store the location of each sound clip associated with the pet.
+    private Sound[] soundClips;             // This will store the location of each sound clip associated with the pet.
                                             // Standard notations will keep the sounds naming conventions the same for each pet.
                                             // eg: soundClips[0] -> Default cry of the pet
                                             //     soundClips[1] -> Sound a pet makes when it is happy,
@@ -40,7 +52,10 @@ public class Pet {
 
     private SpriteBatch batch;
     private Texture red, green, blue;
-    private int maxWidthToPlot, lineWidth = 15;
+    private int maxWidthToPlot;
+    private float lineWidth;
+
+    private AssetManager assetManager;
 
 
     // Not really sure if this should be a singleton class or not.
@@ -57,6 +72,10 @@ public class Pet {
 
         batch = new SpriteBatch();
 
+
+        petMoods = new String[10];
+        soundClips = new Sound[10];
+
         // These things need to be randomly generated
         // in a given range(a, b).
         // The range (a, b) has not yet been decided.
@@ -70,15 +89,20 @@ public class Pet {
         thirst = maxThirst;
         fatigue = 1;
 
-        hungerRate = 30 * 0.01736f;
-        fatigueRate = 10 * 0.01736f;
-        thirstRate =  20 * 0.01736f;
+        // These rates are still not correct.
+        // TODO them before the app is finished and is ready to hit the market.
+        baseHungerRate = hungerRate = 30 * 0.01736f;
+        baseFatigueRate = fatigueRate = 50 * 0.01736f;
+        baseThirstRate = thirstRate =  20 * 0.01736f;
 
         red = new Texture("red.png");
         green = new Texture("green.png");
         blue = new Texture("blue.png");
 
         maxWidthToPlot = Gdx.graphics.getWidth() / 3;
+        lineWidth = 15 / dz.xScale;
+
+        loadSounds();
 
         // (centerX, centerY) Location of the pet on the screen
         centerX = 100;
@@ -87,6 +111,11 @@ public class Pet {
         // Assign the base image and the animation images according to the species.
         if(species == "default") {
             baseImage = "bot.png";
+
+            petMoods[0] = "bot.png";
+            petMoods[1] = "tiredbot.png";
+
+            soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("clicked.wav"));
         }
         dz.petBase = new Texture(getBaseImage());
         setXY();
@@ -100,8 +129,21 @@ public class Pet {
     }
 
     // This method returns the location of the sound to play for a specific event.
-    public String getSoundClip(int index) {
-        return soundClips[index];
+    public void playSoundClip(int index) {
+       /* if (assetManager.isLoaded("clicked.ogg")){
+            soundClips[0] = assetManager.get("clicked.ogg", Sound.class);
+            soundClips[0].play();
+        }*/
+
+        //soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("assets/clicked.wav"));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        long id = soundClips[0].play();
+
+        Gdx.app.log("LOLOLOL", "Long id = " + id);
     }
 
     public float getHunger() {
@@ -264,11 +306,46 @@ public class Pet {
 
                 while (Pet.isUpdating()) {
                     count++;
-                    int probability = random.nextInt(3);
-                    if(probability == 1 && !isMoving() && !isTouched()) {
-                        randomMovements();
+                    if(hunger > maxHunger / 4) {
+
+                        if(hungerRate != baseHungerRate) {
+                            hungerRate = baseHungerRate;
+                        }
+                    } else if(hungerRate == baseHungerRate) {
+                        hungerRate = baseHungerRate / 2;
                     }
 
+                    // If pet is very tired then make it preserve energy by lowering the fatigue rate.
+                    if(fatigue >= maxFatigue / 4 && fatigueRate == baseFatigueRate) {
+                        fatigueRate = baseFatigueRate / 2;
+
+                        // Change the pet's image to a one where the pet is tired.
+                        baseImage = petMoods[1];
+
+                        // refresh the changes
+                        refreshPetImage();
+
+                    } else if(fatigue < maxFatigue / 4) {
+
+                        // Only do random movements if the pet is not tired.
+                        int probability = random.nextInt(3);
+                        if (probability == 1 && !isMoving() && !isTouched()) {
+                            randomMovements();
+                        }
+
+
+                        if(fatigueRate != baseFatigueRate) {
+                            fatigueRate = baseFatigueRate;
+
+                            // Change the pet's image to the actual pet image.
+                            baseImage = petMoods[0];
+
+                            // refresh the changes
+                            refreshPetImage();
+                        }
+                    }
+
+                    // count == 2 means we update the pet stats every second minute
                     if(count == 2) {
                         hunger = (hunger - hungerRate <= 1)? 1 : hunger - hungerRate;
                         fatigue = (fatigue + fatigueRate >= maxFatigue)? maxFatigue : fatigue + fatigueRate;
@@ -278,6 +355,7 @@ public class Pet {
                     }
                     try {
                         // Sleep for 1 minute.
+                        // TODO make it sleep for 1 minute.
                         Thread.sleep( 1000);
                     } catch (InterruptedException ie) {
                         ie.printStackTrace();
@@ -331,13 +409,26 @@ public class Pet {
     public void plotStats() {
         batch.begin();
             // Draw Hunger / Energy
-            batch.draw((hunger > maxHunger / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 100/dz.yScale, (hunger / maxHunger) * maxWidthToPlot , lineWidth/ dz.xScale);
+            batch.draw((hunger > maxHunger / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 100/dz.yScale, (hunger / maxHunger) * maxWidthToPlot , lineWidth);
             // Draw Thirst
-            batch.draw((thirst > maxThirst / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 150/dz.yScale, (thirst / maxThirst) * maxWidthToPlot , lineWidth/ dz.xScale);
+            batch.draw((thirst > maxThirst / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 150/dz.yScale, (thirst / maxThirst) * maxWidthToPlot , lineWidth);
             // Draw Fatigue
-            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 200/dz.yScale, (fatigue / maxFatigue) * maxWidthToPlot , lineWidth/ dz.xScale);
+            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 200/dz.yScale, (fatigue / maxFatigue) * maxWidthToPlot , lineWidth);
 
         batch.end();
 
+    }
+
+    public void refreshPetImage() {
+        dz.petBase.dispose();
+        dz.petBase = new Texture(getBaseImage());
+    }
+
+    public void loadSounds() {
+        /*assetManager = new AssetManager();
+        assetManager.load("clicked.ogg", Music.class);
+        assetManager.finishLoading();*/
+
+        soundClips[0] =  Gdx.audio.newSound(Gdx.files.internal("NNoisecollector barkloud.wav"));
     }
 }

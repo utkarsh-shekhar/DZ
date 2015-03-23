@@ -93,6 +93,7 @@ public class Dz extends ApplicationAdapter {
             // checks if pet is touched.
             // Does not work yet.
             pet.isPetTouched();
+            pet.playSoundClip(0);
 
             // camera.position.x;
 
