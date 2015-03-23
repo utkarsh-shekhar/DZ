@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 //TO DO
 //separate function to render pet stats
@@ -23,6 +24,7 @@ public class Dz extends ApplicationAdapter {
     final int camScrollRate=10;
     // Creating a base pet texture.
     Texture petBase;
+    TextureRegion drawPet;
     // The object of the pet class.
     Pet pet;
     MapRenderer mapRenderer;
@@ -38,6 +40,10 @@ public class Dz extends ApplicationAdapter {
 		batch = new SpriteBatch();
         map = new Map(this);
         mapRenderer= new MapRenderer(map,this);
+
+        petBase = new Texture("pet1.png");
+        drawPet = new TextureRegion(petBase, 0, 0, 150, 150);//(petBase, 0, petBase.getHeight() - 150, 150, 150);
+        Gdx.app.log("PET: ", "" + drawPet.getRegionX() + ", " +drawPet.getRegionY() + ", " +drawPet.getRegionHeight() + ", " +drawPet.getRegionWidth());
 		//img = new Texture("bg.jpg");
 
         camera = new OrthographicCamera(resolutionX,resolutionY);
@@ -47,16 +53,14 @@ public class Dz extends ApplicationAdapter {
         //camera.update();
 
 
+        yScale=(float)1280/(float)Gdx.graphics.getHeight(); //scale actual height to 1280 standard
+        xScale=(float)720/(float)Gdx.graphics.getWidth();
+
         // Creating a pet object with a name "Critzu".
         petName="Critzu";
 
+        // Pet creation should always be the last thing to do in this method.s
         pet = new Pet(petName,this);
-
-
-        // Move pet to the location (1440, 0)
-        //pet.moveTo(100, 900);
-        yScale=(float)1280/(float)Gdx.graphics.getHeight(); //scale actual height to 1280 standard
-        xScale=(float)720/(float)Gdx.graphics.getWidth();
     }
 
 	@Override
@@ -76,11 +80,11 @@ public class Dz extends ApplicationAdapter {
 		//batch.draw(img, 0, 0,resolutionX*3,resolutionY);
 
         // drawing the base pet on the screen over the background.
-        batch.draw(petBase, pet.getX(), pet.getY(), petBase.getWidth(), petBase.getHeight());
-        // font.setColor(new Color(1, 1, 1, 1));
-        // font.setScale(3f, 3f);
-        // font.draw(batch, "Hunger: " + pet.getHunger(), camera.position.x ,camera.position.y);
+        //batch.draw(drawPet, pet.getX(), pet.getY(), drawPet.getRegionWidth(), drawPet.getRegionHeight());
+        //batch.draw(petBase, pet.getX(), pet.getY());
+        batch.draw(drawPet, pet.getX(), pet.getY());
         batch.end();
+
         map.update();
         controls.render();
         pet.plotStats();
@@ -112,6 +116,9 @@ public class Dz extends ApplicationAdapter {
         camera.update();
 	}
 
+    public void setPetTextureRegion(int x, int y) {
+        drawPet.setRegion(x, y, 150, 150);
+    }
 
 }
 

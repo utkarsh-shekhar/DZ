@@ -52,7 +52,7 @@ public class Pet {
     private SpriteBatch batch;
     private Texture red, green, blue;
     private int maxWidthToPlot;
-    private float lineWidth;
+    private float lineHeight;
 
     private AssetManager assetManager;
 
@@ -99,13 +99,13 @@ public class Pet {
         blue = new Texture("blue.png");
 
         maxWidthToPlot = Gdx.graphics.getWidth() / 3;
-        lineWidth = 15 / dz.xScale;
+        lineHeight = 15 / dz.xScale;
 
         loadSounds();
 
         // (centerX, centerY) Location of the pet on the screen
-        centerX = 100;
-        centerY = 100;
+        centerX = 700;
+        centerY = 200;
 
         // Assign the base image and the animation images according to the species.
         if(species == "default") {
@@ -114,9 +114,8 @@ public class Pet {
             petMoods[0] = "bot.png";
             petMoods[1] = "tiredbot.png";
 
-            soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("drop.mp3"));
+            // soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("drop.mp3"));
         }
-        dz.petBase = new Texture(getBaseImage());
         setXY();
 
         update();
@@ -128,21 +127,21 @@ public class Pet {
     }
 
     // This method returns the location of the sound to play for a specific event.
-    public void playSoundClip(int index) {
-       /* if (assetManager.isLoaded("clicked.ogg")){
-            soundClips[0] = assetManager.get("clicked.ogg", Sound.class);
-            soundClips[0].play();
-        }*/
+    public void playSoundClip(final int index) {
+        Thread thread = new Thread(new Runnable() {
 
-        //soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("assets/clicked.wav"));
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        long id = soundClips[0].play();
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-        Gdx.app.log("LOLOLOL", "Long id = " + id);
+                soundClips[index].play();
+            }
+        });
+        thread.start();
     }
 
     public float getHunger() {
@@ -315,14 +314,13 @@ public class Pet {
                     }
 
                     // If pet is very tired then make it preserve energy by lowering the fatigue rate.
-                    if(fatigue >= maxFatigue / 4 && fatigueRate == baseFatigueRate) {
+                    if(fatigue >= 3 * (maxFatigue / 4) && fatigueRate == baseFatigueRate) {
                         fatigueRate = baseFatigueRate / 2;
 
                         // Change the pet's image to a one where the pet is tired.
                         baseImage = petMoods[1];
 
-                        // refresh the changes
-                        refreshPetImage();
+                        Gdx.app.log("Fatigue", "Here at upper if");
 
                     } else if(fatigue < maxFatigue / 4) {
 
@@ -339,8 +337,7 @@ public class Pet {
                             // Change the pet's image to the actual pet image.
                             baseImage = petMoods[0];
 
-                            // refresh the changes
-                            refreshPetImage();
+                            Gdx.app.log("Fatigue", "Here at lower else if.");
                         }
                     }
 
@@ -391,43 +388,26 @@ public class Pet {
         int centerX = dz.resolutionX / 2;
         int dx = (int)(Gdx.input.getX()*dz.xScale-centerX);        //taking center of screen as x=0, dx is distance relative to center
 
-        //System.out.println("X: " + ((int)dz.camera.position.x + dx) + " \t Y: " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
-        //System.out.println("X = " + Gdx.input.getX() + "\t Y = " + Gdx.input.getY());
-
         if(isThere((int) dz.camera.position.x + dx, dz.resolutionY -  (int)(Gdx.input.getY()*dz.yScale))) {
             setTouched(true);
-
-            // System.out.println("Pet is touched...");
-        } /*else {
-            setTouched(false);
-            System.out.println("Pet is not touched...");
-        }*/
+        }
     }
 
     // Function to plot pet's stats.
     public void plotStats() {
         batch.begin();
             // Draw Hunger / Energy
-            batch.draw((hunger > maxHunger / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 100/dz.yScale, (hunger / maxHunger) * maxWidthToPlot , lineWidth);
+            batch.draw((hunger > maxHunger / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 100/dz.yScale, (hunger / maxHunger) * maxWidthToPlot , lineHeight);
             // Draw Thirst
-            batch.draw((thirst > maxThirst / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 150/dz.yScale, (thirst / maxThirst) * maxWidthToPlot , lineWidth);
+            batch.draw((thirst > maxThirst / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 150/dz.yScale, (thirst / maxThirst) * maxWidthToPlot , lineHeight);
             // Draw Fatigue
-            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 200/dz.yScale, (fatigue / maxFatigue) * maxWidthToPlot , lineWidth);
+            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 200/dz.yScale, (fatigue / maxFatigue) * maxWidthToPlot , lineHeight);
 
         batch.end();
 
     }
 
-    public void refreshPetImage() {
-        dz.petBase.dispose();
-        dz.petBase = new Texture(getBaseImage());
-    }
-
     public void loadSounds() {
-        /*assetManager = new AssetManager();
-        assetManager.load("clicked.ogg", Music.class);
-        assetManager.finishLoading();*/
-
-        soundClips[0] =  Gdx.audio.newSound(Gdx.files.internal("drop.mp3"));
+        soundClips[0] =  Gdx.audio.newSound(Gdx.files.internal("clicked.ogg"));
     }
 }
