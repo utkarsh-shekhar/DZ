@@ -2,7 +2,6 @@ package com.thebigfail.dz;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -115,7 +114,7 @@ public class Pet {
             petMoods[0] = "bot.png";
             petMoods[1] = "tiredbot.png";
 
-            soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("clicked.wav"));
+            soundClips[0] = Gdx.audio.newSound(Gdx.files.internal("drop.mp3"));
         }
         dz.petBase = new Texture(getBaseImage());
         setXY();
@@ -429,6 +428,6 @@ public class Pet {
         assetManager.load("clicked.ogg", Music.class);
         assetManager.finishLoading();*/
 
-        soundClips[0] =  Gdx.audio.newSound(Gdx.files.internal("NNoisecollector barkloud.wav"));
+        soundClips[0] =  Gdx.audio.newSound(Gdx.files.internal("drop.mp3"));
     }
 }

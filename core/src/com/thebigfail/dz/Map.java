@@ -45,8 +45,8 @@ public class Map {
         for (int y = 0; y < 32; y++) {
             for (int x = 0; x < 54; x++) {
                 int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
-                System.out.println("x: "+x+" y: "+y);
-                System.out.println(pix);
+                //System.out.println("x: "+x+" y: "+y);
+                //System.out.println(pix);
                 if (match(pix, HOME)) {
                     Home home = new Home(x, pixmap.getHeight() - 1 - y);
                     homes.add(home);
