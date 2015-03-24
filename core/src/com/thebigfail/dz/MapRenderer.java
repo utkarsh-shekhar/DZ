@@ -94,4 +94,15 @@ public class MapRenderer {
 
         }
     }
+
+    public void dispose() {
+        homeImg.dispose();
+        rockImg.dispose();
+        grassImg.dispose();
+        fenceImg.dispose();
+        waterImg.dispose();
+
+        cache.dispose();
+        batch.dispose();
+    }
 }

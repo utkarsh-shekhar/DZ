@@ -425,4 +425,8 @@ public class Pet {
     public void loadSounds() {
         soundClips[0] =  Gdx.audio.newSound(Gdx.files.internal("clicked.ogg"));
     }
+
+    public void dispose() {
+
+    }
 }

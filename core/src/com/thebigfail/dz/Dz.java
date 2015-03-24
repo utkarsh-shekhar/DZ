@@ -66,8 +66,13 @@ public class Dz extends ApplicationAdapter {
 
     }
 
+    // Clean up the resources
     public void dispose() {
-
+        pet.dispose();
+        petBase.dispose();
+        font.dispose();
+        mapRenderer.dispose();
+        map.dispose();
     }
 
 	@Override
