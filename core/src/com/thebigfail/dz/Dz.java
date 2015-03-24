@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -24,7 +25,8 @@ public class Dz extends ApplicationAdapter {
     final int camScrollRate=10;
     // Creating a base pet texture.
     Texture petBase;
-    TextureRegion drawPet;
+    TextureRegion[][] tmp;
+    Sprite drawPet;
     // The object of the pet class.
     Pet pet;
     MapRenderer mapRenderer;
@@ -41,10 +43,7 @@ public class Dz extends ApplicationAdapter {
         map = new Map(this);
         mapRenderer= new MapRenderer(map,this);
 
-        petBase = new Texture("pet1.png");
-        drawPet = new TextureRegion(petBase, 0, 0, 150, 150);//(petBase, 0, petBase.getHeight() - 150, 150, 150);
-        Gdx.app.log("PET: ", "" + drawPet.getRegionX() + ", " +drawPet.getRegionY() + ", " +drawPet.getRegionHeight() + ", " +drawPet.getRegionWidth());
-		//img = new Texture("bg.jpg");
+        petBase = new Texture(Gdx.files.internal("pet.png"));
 
         camera = new OrthographicCamera(resolutionX,resolutionY);
         camera.position.set((int)(resolutionX*1.5), resolutionY/2, 0);
@@ -59,8 +58,16 @@ public class Dz extends ApplicationAdapter {
         // Creating a pet object with a name "Critzu".
         petName="Critzu";
 
-        // Pet creation should always be the last thing to do in this method.s
+        // Pet creation should always be the last thing to do in this method.
         pet = new Pet(petName,this);
+
+        drawPet = new Sprite(petBase, 0, 0, pet.getWidth(), pet.getHeight());
+        Gdx.app.log("PET: ", "" + drawPet.getRegionX() + ", " +drawPet.getRegionY() + ", " +drawPet.getRegionHeight() + ", " +drawPet.getRegionWidth());
+
+    }
+
+    public void dispose() {
+
     }
 
 	@Override
@@ -73,16 +80,13 @@ public class Dz extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.render();
-		batch.begin();
 
-        // draw the background.
+        drawPet.setPosition(pet.getX(), pet.getY());
 
-		//batch.draw(img, 0, 0,resolutionX*3,resolutionY);
+        Gdx.app.log("", "x: " + pet.getX() + " Y: " + pet.getY());
 
-        // drawing the base pet on the screen over the background.
-        //batch.draw(drawPet, pet.getX(), pet.getY(), drawPet.getRegionWidth(), drawPet.getRegionHeight());
-        //batch.draw(petBase, pet.getX(), pet.getY());
-        batch.draw(drawPet, pet.getX(), pet.getY());
+        batch.begin();
+        drawPet.draw(batch);
         batch.end();
 
         map.update();
@@ -117,7 +121,7 @@ public class Dz extends ApplicationAdapter {
 	}
 
     public void setPetTextureRegion(int x, int y) {
-        drawPet.setRegion(x, y, 150, 150);
+        drawPet.setRegion(x, y, pet.getWidth(), pet.getHeight());
     }
 
 }

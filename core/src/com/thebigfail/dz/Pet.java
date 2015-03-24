@@ -36,6 +36,8 @@ public class Pet {
 //                                                    check isPetTouched() in various screen sizes
                                             // This is all TODO for now.
 
+    private int width, height;
+
     private int hp, attack, defence, level;
     private int maxHp, maxAttack, maxDefence;
 
@@ -90,8 +92,8 @@ public class Pet {
 
         // These rates are still not correct.
         // TODO them before the app is finished and is ready to hit the market.
-        baseHungerRate = hungerRate = 30 * 0.01736f;
-        baseFatigueRate = fatigueRate = 50 * 0.01736f;
+        baseHungerRate = hungerRate = 60 * 0.01736f;
+        baseFatigueRate = fatigueRate = 40 * 0.01736f;
         baseThirstRate = thirstRate =  20 * 0.01736f;
 
         red = new Texture("red.png");
@@ -102,6 +104,8 @@ public class Pet {
         lineHeight = 15 / dz.xScale;
 
         loadSounds();
+
+        width = height = 150;
 
         // (centerX, centerY) Location of the pet on the screen
         centerX = 700;
@@ -119,6 +123,14 @@ public class Pet {
         setXY();
 
         update();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     // This method returns the location of the base image of the pet.
@@ -167,8 +179,8 @@ public class Pet {
     }
 
     public void setXY() {
-        X = centerX - dz.petBase.getWidth()/2;
-        Y = centerY - dz.petBase.getHeight()/2;
+        X = centerX - (width / 2);
+        Y = centerY - (height / 2);
 
     }
 
@@ -307,9 +319,11 @@ public class Pet {
                     if(hunger > maxHunger / 4) {
 
                         if(hungerRate != baseHungerRate) {
+                            dz.setPetTextureRegion(0, 0);
                             hungerRate = baseHungerRate;
                         }
                     } else if(hungerRate == baseHungerRate) {
+                        dz.setPetTextureRegion(0, 300);
                         hungerRate = baseHungerRate / 2;
                     }
 
@@ -322,6 +336,8 @@ public class Pet {
 
                         Gdx.app.log("Fatigue", "Here at upper if");
 
+                        dz.setPetTextureRegion(0, 150);
+
                     } else if(fatigue < maxFatigue / 4) {
 
                         // Only do random movements if the pet is not tired.
@@ -332,10 +348,9 @@ public class Pet {
 
 
                         if(fatigueRate != baseFatigueRate) {
-                            fatigueRate = baseFatigueRate;
 
-                            // Change the pet's image to the actual pet image.
-                            baseImage = petMoods[0];
+                            dz.setPetTextureRegion(0, 0);
+                            fatigueRate = baseFatigueRate;
 
                             Gdx.app.log("Fatigue", "Here at lower else if.");
                         }
