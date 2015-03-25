@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 //This class is the initial class and contains the render function responsible for all the graphics on screen
+//to do:
+// better usage of batch desired
 // Let the user know when end of map/world has reached
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -50,18 +52,7 @@ public class Dz extends ApplicationAdapter {
         drawPet = new Sprite(petBase, 0, 0, pet.getWidth(), pet.getHeight());
         }
 
-    // Clean up the resources
-    public void dispose() {
-        pet.dispose();
-        petBase.dispose();
-        font.dispose();
-        mapRenderer.dispose();
-        map.dispose();
-        batch.dispose();
-        controls.dispose();
-    }
-
-	@Override
+    @Override
 	public void render () {
         //map.update();
 		Gdx.gl.glClearColor(0, 1, 0, 1);
@@ -97,5 +88,16 @@ public class Dz extends ApplicationAdapter {
 
     public void setPetTextureRegion(int x, int y) {
         drawPet.setRegion(x, y, pet.getWidth(), pet.getHeight());
+    }
+
+    // Clean up the resources
+    public void dispose() {
+        mapRenderer.dispose();
+        pet.dispose();
+        petBase.dispose();
+        font.dispose();
+        map.dispose();
+        batch.dispose();
+        controls.dispose();
     }
 }

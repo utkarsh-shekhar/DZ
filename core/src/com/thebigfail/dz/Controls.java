@@ -43,6 +43,5 @@ public class Controls {
     public void dispose () {
         dpad.getTexture().dispose();
         batch.dispose();
-
     }
 }
