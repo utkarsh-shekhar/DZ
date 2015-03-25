@@ -71,7 +71,7 @@ public class Pet {
         this.dz= dz;
         this.species = species;
 
-        batch = new SpriteBatch();
+        batch = dz.batch;
 
         petMoods = new String[10];
         soundClips = new Sound[10];
@@ -99,8 +99,8 @@ public class Pet {
         green = new Texture("green.png");
         blue = new Texture("blue.png");
 
-        maxWidthToPlot = Gdx.graphics.getWidth() / 3;
-        lineHeight = 15 / dz.xScale;
+        maxWidthToPlot = dz.resolutionX / 3;
+        lineHeight = 15;
 
         loadSounds();
 
@@ -404,15 +404,13 @@ public class Pet {
 
     // Function to plot pet's stats.
     public void plotStats() {
-        batch.begin();
             // Draw Hunger / Energy
-            batch.draw((hunger > maxHunger / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 100/dz.yScale, (hunger / maxHunger) * maxWidthToPlot , lineHeight);
+            batch.draw((hunger > maxHunger / 4)? blue : red, dz.camera.position.x-360+45, dz.resolutionY - 100, (hunger / maxHunger) * maxWidthToPlot , lineHeight);
             // Draw Thirst
-            batch.draw((thirst > maxThirst / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 150/dz.yScale, (thirst / maxThirst) * maxWidthToPlot , lineHeight);
+            batch.draw((thirst > maxThirst / 4)? blue : red, dz.camera.position.x-360+45, dz.resolutionY - 150, (thirst / maxThirst) * maxWidthToPlot , lineHeight);
             // Draw Fatigue
-            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 200/dz.yScale, (fatigue / maxFatigue) * maxWidthToPlot , lineHeight);
+            batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, dz.camera.position.x-360+45, dz.resolutionY - 200, (fatigue / maxFatigue) * maxWidthToPlot , lineHeight);
 
-        batch.end();
 
     }
 
@@ -421,7 +419,6 @@ public class Pet {
     }
 
     public void dispose() {
-        batch.dispose();
         red.dispose();
         green.dispose();
         blue.dispose();

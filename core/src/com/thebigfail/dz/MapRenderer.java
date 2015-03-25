@@ -22,7 +22,7 @@ public class MapRenderer {
         this.map = map;
         this.dz=dz;
         this.cam = new OrthographicCamera(54, 32);
-        this.batch=new SpriteBatch( );
+        this.batch=dz.batch;
         homeImg=new Texture(Gdx.files.internal("house.png"));
         rockImg=new Texture(Gdx.files.internal("rock.png"));
         grassImg=new Texture(Gdx.files.internal("grass.png"));
@@ -31,17 +31,17 @@ public class MapRenderer {
     }
     public void render(){
         batch.setProjectionMatrix(dz.camera.combined);
-        batch.begin();
+
         renderHomes();
         renderRocks();
         renderGrasses();
         renderFences();
         renderWaters();
-        batch.end();
+
 
 
     }
-    private void renderHomes () {
+    public void renderHomes () {
         for (int i = 0; i < map.homes.size; i++) {
             Home home = map.homes.get(i);
 

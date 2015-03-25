@@ -17,6 +17,7 @@ public class Controls {
 
     public Controls (Dz dz) {
         this.dz = dz;
+        batch=dz.batch;
         loadAssets();
     }
 
@@ -29,19 +30,14 @@ public class Controls {
         cubeControl = buttons[3];
         cubeFollow = TextureRegion.split(texture, 64, 64)[1][2];
         dpad = new TextureRegion(texture, 0, 64, 128, 128);
-        batch = new SpriteBatch();
-        batch.getProjectionMatrix().setToOrtho2D(0, 0, 720, 1280);
     }
 
     public void render () {
-            batch.begin();
-            batch.draw(left, 0, 0);
-            batch.draw(right, 720-right.getRegionWidth(), 0);
-            batch.end();
+            batch.draw(left, dz.camera.position.x-360, 0);
+            batch.draw(right, dz.camera.position.x+360-right.getRegionWidth(), 0);
     }
 
     public void dispose () {
         dpad.getTexture().dispose();
-        batch.dispose();
     }
 }
