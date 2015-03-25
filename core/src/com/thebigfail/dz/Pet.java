@@ -61,8 +61,8 @@ public class Pet {
 
     // Not really sure if this should be a singleton class or not.
     // I'll come back to it later.
-    Pet(String name,Dz dz) {     //passing dz object too
-        this(name, "default",dz);
+    Pet(String name, Dz dz) {     //passing dz object too
+        this(name, "default", dz);
 
     }
 
@@ -72,7 +72,6 @@ public class Pet {
         this.species = species;
 
         batch = new SpriteBatch();
-
 
         petMoods = new String[10];
         soundClips = new Sound[10];
@@ -220,11 +219,6 @@ public class Pet {
 
     // Returns true if the pet lies where you have touched the screen
     public boolean isThere(int x, int y) {
-        //System.out.println("getX: "+ getX() + "\t getY: " +getY());
-        //System.out.println("x: "+ x + "\t y: " +y);
-        //System.out.println("yScale: " + dz.yScale);
-        //y=(int)(y*dz.yScale);
-        //System.out.println("x: "+ x + "\t y: " +y);
         if(x >= getX()  && x <= getX() + dz.petBase.getWidth() && y >= getY()   && y <= getY() + dz.petBase.getHeight() )
             return true;
 
