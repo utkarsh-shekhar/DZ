@@ -421,6 +421,9 @@ public class Pet {
     }
 
     public void dispose() {
-
+        batch.dispose();
+        red.dispose();
+        green.dispose();
+        blue.dispose();
     }
 }

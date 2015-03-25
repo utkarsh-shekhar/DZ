@@ -9,18 +9,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-//TO DO
-//separate function to render pet stats
-//separate class to render the map
-
-
+//This class is the initial class and contains the render function responsible for all the graphics on screen
+//to do:
+// better usage of batch desired
+// Let the user know when end of map/world has reached
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
-	//Texture img;
     BitmapFont font;
 	OrthographicCamera camera;
-    int cameraX;
     Map map;
     final int camScrollRate=10;
     // Creating a base pet texture.
@@ -42,75 +38,38 @@ public class Dz extends ApplicationAdapter {
 		batch = new SpriteBatch();
         map = new Map(this);
         mapRenderer= new MapRenderer(map,this);
-
         petBase = new Texture(Gdx.files.internal("pet.png"));
-
         camera = new OrthographicCamera(resolutionX,resolutionY);
         camera.position.set((int)(resolutionX*1.5), resolutionY/2, 0);
         controls = new Controls(this);
         font = new BitmapFont();
-        //camera.update();
-
-
         yScale=(float)1280/(float)Gdx.graphics.getHeight(); //scale actual height to 1280 standard
         xScale=(float)720/(float)Gdx.graphics.getWidth();
-
         // Creating a pet object with a name "Critzu".
         petName="Critzu";
-
         // Pet creation should always be the last thing to do in this method.
         pet = new Pet(petName,this);
-
         drawPet = new Sprite(petBase, 0, 0, pet.getWidth(), pet.getHeight());
-        Gdx.app.log("PET: ", "" + drawPet.getRegionX() + ", " +drawPet.getRegionY() + ", " +drawPet.getRegionHeight() + ", " +drawPet.getRegionWidth());
+        }
 
-    }
-
-    // Clean up the resources
-    public void dispose() {
-        pet.dispose();
-        petBase.dispose();
-        font.dispose();
-        mapRenderer.dispose();
-        map.dispose();
-    }
-
-	@Override
+    @Override
 	public void render () {
-        //delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
-
-        map.update();
-
+        //map.update();
 		Gdx.gl.glClearColor(0, 1, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.render();
-
         drawPet.setPosition(pet.getX(), pet.getY());
-
-        Gdx.app.log("", "x: " + pet.getX() + " Y: " + pet.getY());
-
         batch.begin();
         drawPet.draw(batch);
         batch.end();
-
-        map.update();
         controls.render();
         pet.plotStats();
-
         pet.setTouched(false);      // Have to set it to false at every iteration because if someone touches the pet once
                                     // then the pet is set to touched = true and it won't be false even if later it is not being touched
-
         if(Gdx.input.isTouched()) {
-
             // checks if pet is touched.
-            // Does not work yet.
             pet.isPetTouched();
-            // pet.playSoundClip(0);
-
-            // camera.position.x;
-
-//System.out.println("touched at : "+Gdx.input.getX()*xScale+" "+Gdx.input.getY()*yScale+"\t left width: "+controls.left.getRegionWidth());
             if(Gdx.input.getX()*xScale < controls.left.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY-controls.left.getRegionHeight())
                 camera.position.x-=camScrollRate;// camera.position.x;
             else if(Gdx.input.getX()*xScale > resolutionX- controls.right.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY- controls.right.getRegionHeight())
@@ -118,9 +77,11 @@ public class Dz extends ApplicationAdapter {
             else
                 pet.playSoundClip(0);
         }
+
+        //The following lines disallow the camera from going out of the world
         if(camera.position.x < resolutionX/2)
             camera.position.x=resolutionX/2;
-        if(camera.position.x > resolutionX*3-resolutionX/2)
+        else if(camera.position.x > resolutionX*3-resolutionX/2)
             camera.position.x=resolutionX*3-resolutionX/2;
         camera.update();
 	}
@@ -129,5 +90,14 @@ public class Dz extends ApplicationAdapter {
         drawPet.setRegion(x, y, pet.getWidth(), pet.getHeight());
     }
 
+    // Clean up the resources
+    public void dispose() {
+        mapRenderer.dispose();
+        pet.dispose();
+        petBase.dispose();
+        font.dispose();
+        map.dispose();
+        batch.dispose();
+        controls.dispose();
+    }
 }
-

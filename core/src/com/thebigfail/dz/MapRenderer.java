@@ -101,8 +101,5 @@ public class MapRenderer {
         grassImg.dispose();
         fenceImg.dispose();
         waterImg.dispose();
-
-        cache.dispose();
-        batch.dispose();
     }
 }
