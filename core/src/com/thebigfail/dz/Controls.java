@@ -34,15 +34,10 @@ public class Controls {
     }
 
     public void render () {
-
-
             batch.begin();
             batch.draw(left, 0, 0);
             batch.draw(right, 720-right.getRegionWidth(), 0);
-            //batch.draw(cubeControl, 480 - 64, 320 - 64);
-            //batch.draw(dz.petBase,0,0 );
             batch.end();
-
     }
 
     public void dispose () {

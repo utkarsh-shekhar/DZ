@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 //This class is the initial class and contains the render function responsible for all the graphics on screen
+// Let the user know when end of map/world has reached
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
     BitmapFont font;
@@ -35,29 +36,19 @@ public class Dz extends ApplicationAdapter {
 		batch = new SpriteBatch();
         map = new Map(this);
         mapRenderer= new MapRenderer(map,this);
-
         petBase = new Texture(Gdx.files.internal("pet.png"));
-
         camera = new OrthographicCamera(resolutionX,resolutionY);
         camera.position.set((int)(resolutionX*1.5), resolutionY/2, 0);
         controls = new Controls(this);
         font = new BitmapFont();
-        //camera.update();
-
-
         yScale=(float)1280/(float)Gdx.graphics.getHeight(); //scale actual height to 1280 standard
         xScale=(float)720/(float)Gdx.graphics.getWidth();
-
         // Creating a pet object with a name "Critzu".
         petName="Critzu";
-
         // Pet creation should always be the last thing to do in this method.
         pet = new Pet(petName,this);
-
         drawPet = new Sprite(petBase, 0, 0, pet.getWidth(), pet.getHeight());
-        Gdx.app.log("PET: ", "" + drawPet.getRegionX() + ", " +drawPet.getRegionY() + ", " +drawPet.getRegionHeight() + ", " +drawPet.getRegionWidth());
-
-    }
+        }
 
     // Clean up the resources
     public void dispose() {
@@ -66,6 +57,8 @@ public class Dz extends ApplicationAdapter {
         font.dispose();
         mapRenderer.dispose();
         map.dispose();
+        batch.dispose();
+        controls.dispose();
     }
 
 	@Override
@@ -93,9 +86,11 @@ public class Dz extends ApplicationAdapter {
             else
                 pet.playSoundClip(0);
         }
+
+        //The following lines disallow the camera from going out of the world
         if(camera.position.x < resolutionX/2)
             camera.position.x=resolutionX/2;
-        if(camera.position.x > resolutionX*3-resolutionX/2)
+        else if(camera.position.x > resolutionX*3-resolutionX/2)
             camera.position.x=resolutionX*3-resolutionX/2;
         camera.update();
 	}
@@ -103,6 +98,4 @@ public class Dz extends ApplicationAdapter {
     public void setPetTextureRegion(int x, int y) {
         drawPet.setRegion(x, y, pet.getWidth(), pet.getHeight());
     }
-
 }
-
