@@ -9,18 +9,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-//TO DO
-//separate function to render pet stats
-//separate class to render the map
-
-
+//This class is the initial class and contains the render function responsible for all the graphics on screen
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
-	//Texture img;
     BitmapFont font;
 	OrthographicCamera camera;
-    int cameraX;
     Map map;
     final int camScrollRate=10;
     // Creating a base pet texture.
@@ -77,40 +70,22 @@ public class Dz extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-        //delta = Math.min(0.06f, Gdx.graphics.getDeltaTime());
-
-        map.update();
-
+        //map.update();
 		Gdx.gl.glClearColor(0, 1, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
         mapRenderer.render();
-
         drawPet.setPosition(pet.getX(), pet.getY());
-
-        Gdx.app.log("", "x: " + pet.getX() + " Y: " + pet.getY());
-
         batch.begin();
         drawPet.draw(batch);
         batch.end();
-
-        map.update();
         controls.render();
         pet.plotStats();
-
         pet.setTouched(false);      // Have to set it to false at every iteration because if someone touches the pet once
                                     // then the pet is set to touched = true and it won't be false even if later it is not being touched
-
         if(Gdx.input.isTouched()) {
-
             // checks if pet is touched.
-            // Does not work yet.
             pet.isPetTouched();
-            // pet.playSoundClip(0);
-
-            // camera.position.x;
-
-//System.out.println("touched at : "+Gdx.input.getX()*xScale+" "+Gdx.input.getY()*yScale+"\t left width: "+controls.left.getRegionWidth());
             if(Gdx.input.getX()*xScale < controls.left.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY-controls.left.getRegionHeight())
                 camera.position.x-=camScrollRate;// camera.position.x;
             else if(Gdx.input.getX()*xScale > resolutionX- controls.right.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY- controls.right.getRegionHeight())
