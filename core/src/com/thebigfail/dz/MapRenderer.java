@@ -2,17 +2,16 @@ package com.thebigfail.dz;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.SpriteCache;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
+ * Renders the map
  * Created by code on 3/22/2015.
  */
 public class MapRenderer {
     Map map;
     Dz dz;
     OrthographicCamera cam;
-    SpriteCache cache;
     SpriteBatch batch;
     Texture homeImg;
     Texture rockImg;
@@ -29,12 +28,6 @@ public class MapRenderer {
         grassImg=new Texture(Gdx.files.internal("grass.png"));
         fenceImg=new Texture(Gdx.files.internal("fence.png"));
         waterImg=new Texture(Gdx.files.internal("water.png"));
-        //this.cam.position.set(map.bob.pos.x, map.bob.pos.y, 0);
-        //this.cache = new SpriteCache(this.map.tiles.length * this.map.tiles[0].length, false);
-        //this.blocks = new int[(int)Math.ceil(this.map.tiles.length / 24.0f)][(int)Math.ceil(this.map.tiles[0].length / 16.0f)];
-
-        //createAnimations();
-        //createBlocks();
     }
     public void render(){
         batch.setProjectionMatrix(dz.camera.combined);
