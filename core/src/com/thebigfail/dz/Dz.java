@@ -50,7 +50,7 @@ public class Dz extends ApplicationAdapter {
         // Pet creation should always be the last thing to do in this method.
         pet = new Pet(petName,this);
         drawPet = new Sprite(petBase, 0, 0, pet.getWidth(), pet.getHeight());
-        }
+    }
 
     @Override
 	public void render () {

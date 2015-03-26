@@ -5,13 +5,10 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * Created by code on 3/21/2015.
  */
-public class Home {
-    Rectangle bounds = new Rectangle();
+public class Home extends Tile{
     boolean active = false;
     public Home (float x, float y) {
-        bounds.x = x*40;
-        bounds.y = y*40;
-        bounds.width = bounds.height = 1;
+        super((int)x, (int)y);
     }
     public void update(){
 

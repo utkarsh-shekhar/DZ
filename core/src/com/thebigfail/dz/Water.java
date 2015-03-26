@@ -5,10 +5,8 @@ import com.badlogic.gdx.math.Rectangle;
 /**
  * Created by code on 3/21/2015.
  */
-public class Water {
-    Rectangle bounds=new Rectangle();
+public class Water extends Tile {
     public Water(int x,int y){
-        bounds.x=x*40;
-        bounds.y=y*40;
+        super(x, y);
     }
 }

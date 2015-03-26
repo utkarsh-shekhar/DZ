@@ -10,6 +10,8 @@ import java.util.Random;
 
 /**
  * Created by Utkarsh on 3/15/2015.
+ *
+ * This class is the base class for all the pet related activities.
  */
 public class Pet {
     Dz dz;
@@ -56,7 +58,7 @@ public class Pet {
     private int maxWidthToPlot;
     private float lineHeight;
 
-    private AssetManager assetManager;
+    Random random;
 
 
     // Not really sure if this should be a singleton class or not.
@@ -92,7 +94,7 @@ public class Pet {
         // These rates are still not correct.
         // TODO them before the app is finished and is ready to hit the market.
         baseHungerRate = hungerRate = 60 * 0.01736f;
-        baseFatigueRate = fatigueRate = 40 * 0.01736f;
+        baseFatigueRate = fatigueRate = 1 * 0.01736f;
         baseThirstRate = thirstRate =  20 * 0.01736f;
 
         red = new Texture("red.png");
@@ -106,9 +108,15 @@ public class Pet {
 
         width = height = 150;
 
-        // (centerX, centerY) Location of the pet on the screen
-        centerX = 700;
-        centerY = 200;
+        // (centerX, centerY) Location of the pet on the
+        random = new Random();
+        int pixmapX, pixmapY;
+        do {
+            pixmapX = random.nextInt(dz.map.pixmap.getWidth() - 2);
+            pixmapY = random.nextInt(dz.map.pixmap.getHeight() - 2);
+        } while (!validLocation(pixmapX, pixmapY));
+        centerX = (int)((pixmapX * Tile.getXScale()) - Tile.getXScale() / 2);
+        centerY = (int)((pixmapY * Tile.getYScale()) - Tile.getYScale() / 2);
 
         // Assign the base image and the animation images according to the species.
         if(species == "default") {
@@ -135,24 +143,6 @@ public class Pet {
     // This method returns the location of the base image of the pet.
     public String getBaseImage() {
         return baseImage;
-    }
-
-    // This method returns the location of the sound to play for a specific event.
-    public void playSoundClip(final int index) {
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                soundClips[index].play();
-            }
-        });
-        thread.start();
     }
 
     public float getHunger() {
@@ -238,13 +228,34 @@ public class Pet {
 
     // TODO: Check if passed (x, y) is a valid location.
     public boolean validLocation(int x, int y) {
-        return true;
+        return dz.map.match(dz.map.pixmap.getPixel(x, y) >>> 8 & 0xffffff, 0x000000);
+    }
+// 1 : 40
+    // This method returns the location of the sound to play for a specific event.
+    public void playSoundClip(final int index) {
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                soundClips[index].play();
+            }
+        });
+        thread.start();
     }
 
     // moves the pet to the given (x, y) location in a straight line
     // All this happens in a new thread.
     // An animation can also be created here, will implement when we get a few images.
+    // TODO
+    // TOO MANY BUGS HERE. MUST FIX THEM
     public void moveTo(final int x, final int y) {
+
         if (isMoving() || isTouched()) {
             return;
         }
@@ -253,6 +264,9 @@ public class Pet {
             @Override
             public void run() {
                 synchronized (this) {
+                    if (isMoving() || isTouched()) {
+                        return;
+                    }
                     setIsMoving(true);
                     if(x == getCenterX())
                         setCenterX(getCenterX() - 1);
@@ -260,9 +274,9 @@ public class Pet {
                     double m = Math.abs(y - getCenterY()) / Math.abs(x - getCenterX());
 
                     if(Math.abs(x - getCenterX()) >= Math.abs(y - getCenterY())) {
-
-                        while (x > getCenterX() && !isTouched()) {
-                            setCenterX(getCenterX() + 4);
+                        int delta = x > getCenterX() ? 4 : -4;
+                        while (Math.abs(x - getCenterX()) <= 3 && !isTouched()) {
+                            setCenterX(getCenterX() + delta);
 
                             setCenterY((int) (m * (double) (x - getCenterX()) + y));
 
@@ -273,8 +287,9 @@ public class Pet {
                             }
                         }
                     } else {
+                        int delta = y > getCenterY() ? 4 : -4;
                         while (y > getCenterY()  && !isTouched()) {
-                            setCenterY(getCenterY()+4);
+                            setCenterY(getCenterY() + delta);
 
                             setCenterX((int) ( (1 / m) * (double) (y - getCenterY()) + x));
 
@@ -336,7 +351,9 @@ public class Pet {
 
                         // Only do random movements if the pet is not tired.
                         int probability = random.nextInt(3);
+                        Gdx.app.log("PROBABILITY: ", probability + " " + isMoving() + " " + isTouched());
                         if (probability == 1 && !isMoving() && !isTouched()) {
+                            Gdx.app.log("adf", "Random movements");
                             randomMovements();
                         }
 
@@ -373,7 +390,8 @@ public class Pet {
         thread.start();
     }
 
-    public void randomMovements() {
+    // This method tries to make the pet move randomly to different positions on the map
+  /*  public void randomMovements() {
         if (isMoving()) {
             return;
         }
@@ -389,11 +407,34 @@ public class Pet {
         } while (dist < 25);
 
         moveTo(x, y);
+    }*/
+
+    public void randomMovements() {
+        Gdx.app.log("RANDOM MOVEMENTS: ", "isMoving " + isMoving() );
+        if(isMoving()) return;
+
+        int x, y, pixmapX, pixmapY;
+        double dist = 0;
+        do {
+            pixmapX = random.nextInt(dz.map.pixmap.getWidth() - 2);
+            pixmapY = random.nextInt(dz.map.pixmap.getHeight() - 2);
+
+            x = (int)((pixmapX * Tile.getXScale()) - Tile.getXScale() / 2);
+            y = (int)((pixmapY * Tile.getYScale()) - Tile.getYScale() / 2);
+
+            dist = Math.abs(Math.sqrt(Math.pow(Math.abs(x - getCenterX()), 2) + Math.pow(Math.abs(y - getCenterY()), 2)));
+        } while (dist <= 0 || !validLocation(pixmapX, pixmapY) );
+
+
+        Gdx.app.log("RANDOM MOVEMENTS: ", "x: " + x + " y: " + y );
+        moveTo(x, y);
     }
 
-    public void isPetTouched() {
 
-        //dz.camera=new OrthographicCamera(720,1280);
+
+    // checks if the pet is touched
+    // sets the isTouched variable to true or false
+    public void isPetTouched() {
         int centerX = dz.resolutionX / 2;
         int dx = (int)(Gdx.input.getX()*dz.xScale-centerX);        //taking center of screen as x=0, dx is distance relative to center
 
@@ -411,11 +452,11 @@ public class Pet {
             batch.draw((thirst > maxThirst / 4)? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 150/dz.yScale, (thirst / maxThirst) * maxWidthToPlot , lineHeight);
             // Draw Fatigue
             batch.draw((fatigue < 3 * (maxFatigue / 4))? blue : red, 45/dz.xScale, Gdx.graphics.getHeight() - 200/dz.yScale, (fatigue / maxFatigue) * maxWidthToPlot , lineHeight);
-
         batch.end();
-
     }
 
+    // Loads all the sounds in the Pet class.
+    // TODO.
     public void loadSounds() {
         soundClips[0] =  Gdx.audio.newSound(Gdx.files.internal("clicked.ogg"));
     }

@@ -19,11 +19,16 @@ public class MapRenderer {
     Texture grassImg;
     Texture fenceImg;
     Texture waterImg;
+    private int width, height;
+
     public MapRenderer (Map map,Dz dz) {
         this.map = map;
         this.dz=dz;
-        this.cam = new OrthographicCamera(54, 32);
+        this.cam = new OrthographicCamera(map.pixmap.getWidth(), map.pixmap.getHeight());
         this.batch=new SpriteBatch( );
+
+        width = height = 150;
+
         homeImg=new Texture(Gdx.files.internal("house.png"));
         rockImg=new Texture(Gdx.files.internal("rock.png"));
         grassImg=new Texture(Gdx.files.internal("grass.png"));
@@ -45,14 +50,12 @@ public class MapRenderer {
         renderFences();
         renderWaters();
         batch.end();
-
-
     }
     private void renderHomes () {
         for (int i = 0; i < map.homes.size; i++) {
             Home home = map.homes.get(i);
 
-            batch.draw(this.homeImg, home.bounds.x,home.bounds.y,200,200);
+            batch.draw(this.homeImg, home.bounds.x,home.bounds.y, width, height);
 
 
 
@@ -62,7 +65,7 @@ public class MapRenderer {
         for (int i = 0; i < map.rocks.size; i++) {
             Rock rock = map.rocks.get(i);
 
-            batch.draw(this.rockImg, rock.bounds.x,rock.bounds.y,200,200);
+            batch.draw(this.rockImg, rock.bounds.x,rock.bounds.y, width, height);
 
 
         }
@@ -71,7 +74,7 @@ public class MapRenderer {
         for (int i = 0; i < map.grasses.size; i++) {
             Grass grass = map.grasses.get(i);
 
-            batch.draw(this.grassImg, grass.bounds.x,grass.bounds.y,200,200);
+            batch.draw(this.grassImg, grass.bounds.x,grass.bounds.y, width, height);
 
 
         }
@@ -80,7 +83,7 @@ public class MapRenderer {
         for (int i = 0; i < map.fences.size; i++) {
             Fence fence = map.fences.get(i);
 
-            batch.draw(this.fenceImg, fence.bounds.x,fence.bounds.y,200,200);
+            batch.draw(this.fenceImg, fence.bounds.x,fence.bounds.y, width, height);
 
 
         }
@@ -89,7 +92,7 @@ public class MapRenderer {
         for (int i = 0; i < map.waters.size; i++) {
             Water water = map.waters.get(i);
 
-            batch.draw(this.waterImg, water.bounds.x,water.bounds.y,200,200);
+            batch.draw(this.waterImg, water.bounds.x,water.bounds.y, width, height);
 
 
         }
