@@ -1,0 +1,7 @@
+com/thebigfail/dz/Dz.java
+-------------------------
+1. let the user know when end of world reached while scrolling.
+
+com/thebigfail/dz/Pet.java
+--------------------
+1. check isPetTouched() in various screen sizes

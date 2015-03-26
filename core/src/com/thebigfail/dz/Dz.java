@@ -12,8 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 //This class is the initial class and contains the render function responsible for all the graphics on screen
-//to do:
-// Let the user know when end of map/world has reached
+
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
     BitmapFont font;

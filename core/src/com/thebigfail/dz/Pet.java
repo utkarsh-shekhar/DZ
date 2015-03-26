@@ -33,7 +33,7 @@ public class Pet {
                                             //     soundClips[3] -> Sound a pet makes when it is tired,
                                             //     soundClips[4] -> Sound a pet makes when it is hungry,
                                             //     soundClips[5] -> Sound a pet makes when it is clicked on, etc.
-//                                                    check isPetTouched() in various screen sizes
+//
                                             // This is all TODO for now.
 
     private int width, height;
