@@ -5,38 +5,26 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.Array;
 
 /**
+ * loads the png image into arrays
  * Created by code on 3/21/2015.
  */
 public class Map {
-    static int EMPTY = 0;
-
     static int HOME = 0xff00ff;
     static int ROCK = 0x9f9f9f;
     static int GRASS = 0x00ff00;
     static int FENCE = 0x00ffff;
     static int WATER = 0x0000ff;
-    //int tiles[][];
-    //Texture HouseImage;
     Dz dz;
     Array<Home> homes=new Array<Home>();
     Array<Rock> rocks=new Array<Rock>();
     Array<Grass> grasses=new Array<Grass>();
     Array<Fence> fences=new Array<Fence>();
     Array<Water> waters=new Array<Water>();
-
     Pixmap pixmap;
-
-
-    int drawX,drawY;
 
     public Map(Dz dz ){
         this.dz=dz;
         loadBinary();
-    }
-    public void update(){
-        for (int i = 0; i < homes.size; i++) {
-            homes.get(i).update();
-        }
     }
     private void loadBinary () {
         pixmap = new Pixmap(Gdx.files.internal("newmap.png"));
@@ -44,8 +32,6 @@ public class Map {
         for (int y = 0; y < pixmap.getHeight(); y++) {
             for (int x = 0; x < pixmap.getWidth(); x++) {
                 int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
-                //System.out.println("x: "+x+" y: "+y);
-                //System.out.println(pix);
                 if (match(pix, HOME)) {
                     Home home = new Home(x, pixmap.getHeight() - 1 - y);
                     homes.add(home);
@@ -63,14 +49,6 @@ public class Map {
 
             }
         }
-        /*
-        for (int i = 0; i < movingSpikes.size; i++) {
-            movingSpikes.get(i).init();
-        }
-        for (int i = 0; i < lasers.size; i++) {
-            lasers.get(i).init();
-        }
-        */
     }
     boolean match (int src, int dst) {
         return src == dst;

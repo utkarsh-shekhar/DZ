@@ -9,10 +9,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
+
 //This class is the initial class and contains the render function responsible for all the graphics on screen
-//to do:
-// better usage of batch desired
-// Let the user know when end of map/world has reached
+
 public class Dz extends ApplicationAdapter {
 	SpriteBatch batch;
     BitmapFont font;
@@ -32,6 +32,7 @@ public class Dz extends ApplicationAdapter {
     String petName;
     final int resolutionX=720;
     final int resolutionY=1280;
+    Vector3 pos = new Vector3(resolutionX, resolutionY, 0);
 
 	@Override
 	public void create () {
@@ -58,13 +59,16 @@ public class Dz extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 1, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
-        mapRenderer.render();
+        //mapRenderer.render();
         drawPet.setPosition(pet.getX(), pet.getY());
         batch.begin();
-        drawPet.draw(batch);
-        batch.end();
+        mapRenderer.render();
         controls.render();
         pet.plotStats();
+        drawPet.draw(batch);
+        batch.end();
+
+
         pet.setTouched(false);      // Have to set it to false at every iteration because if someone touches the pet once
                                     // then the pet is set to touched = true and it won't be false even if later it is not being touched
         if(Gdx.input.isTouched()) {
