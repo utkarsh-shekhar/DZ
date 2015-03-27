@@ -7,6 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
  */
 public class Rock extends Tile {
     public Rock(int x,int y){
-        super(x, y);
+        super(x, y, true);
     }
 }

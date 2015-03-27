@@ -9,6 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
 public class Home extends Tile{
     boolean active = false;
     public Home (float x, float y) {
-        super((int)x, (int)y);
+        super((int)x, (int)y, true);
     }
 }

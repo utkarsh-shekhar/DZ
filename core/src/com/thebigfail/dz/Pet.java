@@ -409,6 +409,15 @@ public class Pet {
         moveTo(x, y);
     }*/
 
+    // Returns the (x, y) location of the tile on the pixmap where the pet is currently at.
+    // Returns a String with a space separating the x and y coordinates.
+    public String pixMapLocation() {
+        int x = (int)Math.ceil(centerX / 150);
+        int y = (int)Math.ceil(centerY / 150);
+
+        return x + " " + y;
+    }
+
     public void randomMovements() {
         Gdx.app.log("RANDOM MOVEMENTS: ", "isMoving " + isMoving() );
         if(isMoving()) return;

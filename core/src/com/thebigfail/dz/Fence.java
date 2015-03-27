@@ -8,6 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Fence extends Tile {
     public Fence(int x,int y){
-        super(x, y);
+        super(x, y, true);
     }
 }
