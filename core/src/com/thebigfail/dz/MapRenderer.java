@@ -23,16 +23,9 @@ public class MapRenderer {
     public MapRenderer (Map map,Dz dz) {
         this.map = map;
         this.dz=dz;
-<<<<<<< HEAD
         this.cam = new OrthographicCamera(map.pixmap.getWidth(), map.pixmap.getHeight());
-        this.batch=new SpriteBatch( );
-
         width = height = 150;
-
-=======
-        this.cam = new OrthographicCamera(54, 32);
         this.batch=dz.batch;
->>>>>>> 8ae9b22bf8415a540b1e1eaa2f28309bb1ffca17
         homeImg=new Texture(Gdx.files.internal("house.png"));
         rockImg=new Texture(Gdx.files.internal("rock.png"));
         grassImg=new Texture(Gdx.files.internal("grass.png"));
@@ -47,13 +40,6 @@ public class MapRenderer {
         renderGrasses();
         renderFences();
         renderWaters();
-<<<<<<< HEAD
-        batch.end();
-=======
-
-
-
->>>>>>> 8ae9b22bf8415a540b1e1eaa2f28309bb1ffca17
     }
     public void renderHomes () {
         for (int i = 0; i < map.homes.size; i++) {
