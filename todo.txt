@@ -5,7 +5,7 @@ com/thebigfail/dz/Dz.java
 
 com/thebigfail/dz/Pet.java
 --------------------
-1. check isPetTouched() in various screen sizes
+
 
 miscellaneous
 --------------

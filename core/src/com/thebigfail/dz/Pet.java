@@ -1,7 +1,6 @@
 package com.thebigfail.dz;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -209,7 +208,8 @@ public class Pet {
 
     // Returns true if the pet lies where you have touched the screen
     public boolean isThere(int x, int y) {
-        if(x >= getX()  && x <= getX() + dz.petBase.getWidth() && y >= getY()   && y <= getY() + dz.petBase.getHeight() )
+        //System.out.println("x and y:"+x+" "+y+"\tgetX and getY:"+getX()+" "+getY());
+        if(x >= getX()  && x <= getX() + getWidth() && y >= getY()   && y <= getY() + getHeight() )
             return true;
 
         return false;
@@ -439,7 +439,11 @@ public class Pet {
         int dx = (int)(Gdx.input.getX()*dz.xScale-centerX);        //taking center of screen as x=0, dx is distance relative to center
 
         if(isThere((int) dz.camera.position.x + dx, dz.resolutionY -  (int)(Gdx.input.getY()*dz.yScale))) {
+            //System.out.println("pet is touched");
             setTouched(true);
+        }
+        else{
+            //System.out.println("pet is not touched");
         }
     }
 

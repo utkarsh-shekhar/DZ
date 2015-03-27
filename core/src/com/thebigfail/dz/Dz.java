@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 //This class is the initial class and contains the render function responsible for all the graphics on screen
@@ -21,7 +20,6 @@ public class Dz extends ApplicationAdapter {
     final int camScrollRate=10;
     // Creating a base pet texture.
     Texture petBase;
-    TextureRegion[][] tmp;
     Sprite drawPet;
     // The object of the pet class.
     Pet pet;
