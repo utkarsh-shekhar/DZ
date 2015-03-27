@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector3;
 
 //This class is the initial class and contains the render function responsible for all the graphics on screen
@@ -49,6 +50,7 @@ public class Dz extends ApplicationAdapter {
         // Pet creation should always be the last thing to do in this method.
         pet = new Pet(petName,this);
         drawPet = new Sprite(petBase, 0, 0, pet.getWidth(), pet.getHeight());
+        Gdx.input.setInputProcessor(new GestureDetector(new MyGestureListener()));
     }
 
     @Override
