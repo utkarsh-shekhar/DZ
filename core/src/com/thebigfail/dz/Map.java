@@ -27,15 +27,15 @@ public class Map {
         loadBinary();
     }
     private void loadBinary () {
-         pixmap = new Pixmap(Gdx.files.internal("map1.png"));
-        for (int y = 0; y < 32; y++) {
-            for (int x = 0; x < 54; x++) {
+        pixmap = new Pixmap(Gdx.files.internal("newmap.png"));
+
+        for (int y = 0; y < pixmap.getHeight(); y++) {
+            for (int x = 0; x < pixmap.getWidth(); x++) {
                 int pix = (pixmap.getPixel(x, y) >>> 8) & 0xffffff;
                 if (match(pix, HOME)) {
                     Home home = new Home(x, pixmap.getHeight() - 1 - y);
                     homes.add(home);
-                }
-                else if (match(pix, ROCK)) {
+                } else if (match(pix, ROCK)) {
                     Rock rock = new Rock(x, pixmap.getHeight() - 1 - y);
                     rocks.add(rock);
                 } else if (match(pix, GRASS)) {
