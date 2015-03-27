@@ -22,13 +22,12 @@ public class MapRenderer {
 
     public MapRenderer (Map map,Dz dz) {
         this.map = map;
-        this.dz=dz;
+        this.dz = dz;
         this.cam = new OrthographicCamera(map.pixmap.getWidth(), map.pixmap.getHeight());
 
         width = height = 150;
 
-        this.batch=dz.batch;
-
+        this.batch = dz.batch;
         homeImg=new Texture(Gdx.files.internal("house.png"));
         rockImg=new Texture(Gdx.files.internal("rock.png"));
         grassImg=new Texture(Gdx.files.internal("grass.png"));
@@ -49,9 +48,6 @@ public class MapRenderer {
             Home home = map.homes.get(i);
 
             batch.draw(this.homeImg, home.bounds.x,home.bounds.y, width, height);
-
-
-
         }
     }
     private void renderRocks(){
