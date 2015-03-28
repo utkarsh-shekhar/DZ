@@ -5,6 +5,9 @@ com/thebigfail/dz/Dz.java
 com/thebigfail/dz/Pet.java
 --------------------
 
+com/thebigfail/dz/MyGestureListener.java
+----------------------------------------
+handle all the input from this class only
 
 miscellaneous
 --------------
