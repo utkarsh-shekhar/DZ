@@ -2,6 +2,8 @@ package com.thebigfail.dz;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -32,6 +34,7 @@ public class Dz extends ApplicationAdapter {
     final int resolutionX=720;
     final int resolutionY=1280;
     Vector3 pos = new Vector3(resolutionX, resolutionY, 0);
+    Sound worldStretch;
 
 	@Override
 	public void create () {
@@ -50,6 +53,8 @@ public class Dz extends ApplicationAdapter {
         // Pet creation should always be the last thing to do in this method.
         pet = new Pet(petName,this);
         drawPet = new Sprite(petBase, 0, 0, pet.getWidth(), pet.getHeight());
+        //sound when scrolling map disallowed due to reaching the end
+        worldStretch=Gdx.audio.newSound(Gdx.files.internal("stretch.mp3"));
         Gdx.input.setInputProcessor(new GestureDetector(new MyGestureListener()));
     }
 
@@ -66,8 +71,25 @@ public class Dz extends ApplicationAdapter {
         controls.render();
         pet.plotStats();
         drawPet.draw(batch);
+        batch.setColor(Color.WHITE);
+        if(Gdx.input.isTouched()) {
+            if (camera.position.x < resolutionX / 2) {
+                batch.setColor(new Color(Color.RED));
+            } else if (camera.position.x > resolutionX * 3 - resolutionX / 2) {
+                batch.setColor(new Color(Color.RED));
+            }
+        }
         batch.end();
 
+        //The following lines disallow the camera from going out of the worldd
+        if(camera.position.x < resolutionX/2) {
+            camera.position.x = resolutionX / 2;
+            worldStretch.play();
+        }
+        else if(camera.position.x > resolutionX*3-resolutionX/2) {
+            camera.position.x = resolutionX * 3 - resolutionX / 2;
+            worldStretch.play();
+        }
 
         pet.setTouched(false);      // Have to set it to false at every iteration because if someone touches the pet once
                                     // then the pet is set to touched = true and it won't be false even if later it is not being touched
@@ -81,12 +103,6 @@ public class Dz extends ApplicationAdapter {
             else
                 pet.playSoundClip(0);
         }
-
-        //The following lines disallow the camera from going out of the world
-        if(camera.position.x < resolutionX/2)
-            camera.position.x=resolutionX/2;
-        else if(camera.position.x > resolutionX*3-resolutionX/2)
-            camera.position.x=resolutionX*3-resolutionX/2;
         camera.update();
 	}
 

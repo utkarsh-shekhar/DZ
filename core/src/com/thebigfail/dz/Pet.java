@@ -343,7 +343,7 @@ public class Pet {
                         // Change the pet's image to a one where the pet is tired.
                         baseImage = petMoods[1];
 
-                        Gdx.app.log("Fatigue", "Here at upper if");
+                        //Gdx.app.log("Fatigue", "Here at upper if");
 
                         dz.setPetTextureRegion(0, 150);
 
@@ -351,9 +351,9 @@ public class Pet {
 
                         // Only do random movements if the pet is not tired.
                         int probability = random.nextInt(3);
-                        Gdx.app.log("PROBABILITY: ", probability + " " + isMoving() + " " + isTouched());
+                        //Gdx.app.log("PROBABILITY: ", probability + " " + isMoving() + " " + isTouched());
                         if (probability == 1 && !isMoving() && !isTouched()) {
-                            Gdx.app.log("adf", "Random movements");
+                            //Gdx.app.log("adf", "Random movements");
                             randomMovements();
                         }
 
@@ -363,7 +363,7 @@ public class Pet {
                             dz.setPetTextureRegion(0, 0);
                             fatigueRate = baseFatigueRate;
 
-                            Gdx.app.log("Fatigue", "Here at lower else if.");
+                            //Gdx.app.log("Fatigue", "Here at lower else if.");
                         }
                     }
 
@@ -419,7 +419,7 @@ public class Pet {
     }
 
     public void randomMovements() {
-        Gdx.app.log("RANDOM MOVEMENTS: ", "isMoving " + isMoving() );
+        //Gdx.app.log("RANDOM MOVEMENTS: ", "isMoving " + isMoving() );
         if(isMoving()) return;
 
         int x, y, pixmapX, pixmapY;
@@ -435,7 +435,7 @@ public class Pet {
         } while (dist <= 0 || !validLocation(pixmapX, pixmapY) );
 
 
-        Gdx.app.log("RANDOM MOVEMENTS: ", "x: " + x + " y: " + y );
+        //Gdx.app.log("RANDOM MOVEMENTS: ", "x: " + x + " y: " + y );
         moveTo(x, y);
     }
 

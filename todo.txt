@@ -1,7 +1,6 @@
 com/thebigfail/dz/Dz.java
 -------------------------
 1. let the user know when end of world reached while scrolling.
-2. Tap and hold gestures.
 
 com/thebigfail/dz/Pet.java
 --------------------
