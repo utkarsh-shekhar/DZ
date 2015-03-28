@@ -1,6 +1,7 @@
 package com.thebigfail.dz;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 
@@ -9,10 +10,38 @@ import com.badlogic.gdx.math.Vector2;
  * Class representing the home in game
  */
 public class MyGestureListener implements GestureDetector.GestureListener {
+    Dz dz;
+    public MyGestureListener(Dz dz){
+        this.dz=dz;
+    }
+    public void isTouched(int x, int y){
+        Gdx.app.log("occurred: ", "touched");
+        if(x*dz.xScale <= dz.controls.left.getRegionWidth() && y*dz.yScale >= dz.resolutionY-dz.controls.left.getRegionHeight())
+            dz.camera.position.x-=dz.camScrollRate;// camera.position.x;
+        else if(x*dz.xScale >= dz.resolutionX- dz.controls.right.getRegionWidth() && y*dz.yScale >= dz.resolutionY- dz.controls.right.getRegionHeight())
+            dz.camera.position.x+=dz.camScrollRate;// camera.position.x;
 
+        //The following lines disallow the camera from going out of the worldd
+        if(dz.camera.position.x < dz.resolutionX/2) {
+            dz.camera.position.x = dz.resolutionX / 2;
+            dz.batch.setColor(new Color(Color.RED));
+            dz.worldStretch.play();
+        }
+        else if(dz.camera.position.x > dz.resolutionX*3-dz.resolutionX/2) {
+            dz.camera.position.x = dz.resolutionX * 3 - dz.resolutionX / 2;
+            dz.batch.setColor(new Color(Color.RED));
+            dz.worldStretch.play();
+        }
+
+    }
     @Override
-    public boolean touchDown(float x, float y, int pointer, int button) {
+    public boolean touchDown(float x, float y, int pointer, int button) {   //even if you keep it touched the function is called only once
         Gdx.app.log("occurred: ", "touchDown");
+        // checks if pet is touched.
+        dz.pet.isPetTouched();
+        if(x*dz.xScale > dz.controls.left.getRegionWidth() && y*dz.yScale < dz.resolutionY-dz.controls.left.getRegionHeight() && x*dz.xScale < dz.resolutionX- dz.controls.right.getRegionWidth() && y*dz.yScale < dz.resolutionY- dz.controls.right.getRegionHeight())
+            dz.pet.playSoundClip(0);
+        Gdx.app.log("x and y and pointer and button",x+" "+y+" "+pointer+" "+button);
         return false;
     }
 

@@ -35,6 +35,7 @@ public class Dz extends ApplicationAdapter {
     final int resolutionY=1280;
     Vector3 pos = new Vector3(resolutionX, resolutionY, 0);
     Sound worldStretch;
+    MyGestureListener mgl;
 
 	@Override
 	public void create () {
@@ -55,7 +56,8 @@ public class Dz extends ApplicationAdapter {
         drawPet = new Sprite(petBase, 0, 0, pet.getWidth(), pet.getHeight());
         //sound when scrolling map disallowed due to reaching the end
         worldStretch=Gdx.audio.newSound(Gdx.files.internal("stretch.mp3"));
-        Gdx.input.setInputProcessor(new GestureDetector(new MyGestureListener()));
+        mgl=new MyGestureListener(this);
+        Gdx.input.setInputProcessor(new GestureDetector(mgl)); //all gestures will be automatically handled by event listener
     }
 
     @Override
@@ -66,42 +68,17 @@ public class Dz extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         //mapRenderer.render();
         drawPet.setPosition(pet.getX(), pet.getY());
-        batch.begin();
+        batch.begin(); // place only batch operations between begin() and end() otherwise lag may appear
         mapRenderer.render();
         controls.render();
         pet.plotStats();
         drawPet.draw(batch);
         batch.setColor(Color.WHITE);
-        if(Gdx.input.isTouched()) {
-            if (camera.position.x < resolutionX / 2) {
-                batch.setColor(new Color(Color.RED));
-            } else if (camera.position.x > resolutionX * 3 - resolutionX / 2) {
-                batch.setColor(new Color(Color.RED));
-            }
-        }
         batch.end();
-
-        //The following lines disallow the camera from going out of the worldd
-        if(camera.position.x < resolutionX/2) {
-            camera.position.x = resolutionX / 2;
-            worldStretch.play();
-        }
-        else if(camera.position.x > resolutionX*3-resolutionX/2) {
-            camera.position.x = resolutionX * 3 - resolutionX / 2;
-            worldStretch.play();
-        }
-
         pet.setTouched(false);      // Have to set it to false at every iteration because if someone touches the pet once
                                     // then the pet is set to touched = true and it won't be false even if later it is not being touched
-        if(Gdx.input.isTouched()) {
-            // checks if pet is touched.
-            pet.isPetTouched();
-            if(Gdx.input.getX()*xScale < controls.left.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY-controls.left.getRegionHeight())
-                camera.position.x-=camScrollRate;// camera.position.x;
-            else if(Gdx.input.getX()*xScale > resolutionX- controls.right.getRegionWidth() && Gdx.input.getY()*yScale > resolutionY- controls.right.getRegionHeight())
-                camera.position.x+=camScrollRate;// camera.position.x;
-            else
-                pet.playSoundClip(0);
+        if(Gdx.input.isTouched()){
+            mgl.isTouched(Gdx.input.getX(),Gdx.input.getY());
         }
         camera.update();
 	}
