@@ -92,8 +92,8 @@ public class Pet {
 
         // These rates are still not correct.
         // TODO them before the app is finished and is ready to hit the market.
-        baseHungerRate = hungerRate = 60 * 0.01736f;
-        baseFatigueRate = fatigueRate = 1 * 0.01736f;
+        baseHungerRate = hungerRate = 1 * 0.01736f;
+        baseFatigueRate = fatigueRate = 3 * 0.01736f;
         baseThirstRate = thirstRate =  20 * 0.01736f;
 
         red = new Texture("red.png");
@@ -260,6 +260,7 @@ public class Pet {
             return;
         }
 
+        moveAnimation();
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -350,7 +351,7 @@ public class Pet {
                     } else if(fatigue < maxFatigue / 4) {
 
                         // Only do random movements if the pet is not tired.
-                        int probability = random.nextInt(3);
+                        int probability = random.nextInt(2);
                         //Gdx.app.log("PROBABILITY: ", probability + " " + isMoving() + " " + isTouched());
                         if (probability == 1 && !isMoving() && !isTouched()) {
                             //Gdx.app.log("adf", "Random movements");
@@ -432,7 +433,7 @@ public class Pet {
             y = (int)((pixmapY * Tile.getYScale()) - Tile.getYScale() / 2);
 
             dist = Math.abs(Math.sqrt(Math.pow(Math.abs(x - getCenterX()), 2) + Math.pow(Math.abs(y - getCenterY()), 2)));
-        } while (dist <= 0 || !validLocation(pixmapX, pixmapY) );
+        } while (dist <= 10 || !validLocation(pixmapX, pixmapY) );
 
 
         //Gdx.app.log("RANDOM MOVEMENTS: ", "x: " + x + " y: " + y );
@@ -470,6 +471,34 @@ public class Pet {
     // TODO.
     public void loadSounds() {
         soundClips[0] =  Gdx.audio.newSound(Gdx.files.internal("clicked.ogg"));
+    }
+
+    /*
+    ** Pet animations start from here
+    */
+
+    public void moveAnimation() {
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                int frame = 0;
+                while(isMoving()) {
+                    Gdx.app.log("", "MOVING ANIMATION");
+                    dz.setPetTextureRegion(150, 0 + (frame * 150));
+                    frame++;
+                    if(frame == 10)
+                        frame = 0;
+                    try {
+                        Thread.sleep(17);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                dz.setPetTextureRegion(0, 0);
+            }
+        });
+        thread.start();
     }
 
     public void dispose() {
